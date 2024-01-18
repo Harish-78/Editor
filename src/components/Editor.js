@@ -1,19 +1,53 @@
-import "./styles.css";
-import React, { useState } from "react";
-import Editor from "./editor/Editor";
-import EditorTextParser from "./editor-parser/EditorTextParser";
+import React, { useState, useEffect } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-export default function EditorScreen(props) {
-  const [data, setData] = useState(props.editorData);  
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ font: [] }],
+    [{ color: [] }, { background: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+    ["blockquote", "code-block"],
+    [{ script: "sub" }, { script: "super" }],
+  ],
+};
+
+function Editor(props) {
+  const [value, setValue] = useState(props.data);
+
+  const handleEditorChange = (newValue) => {
+    setValue(newValue);
+    props.onUpdate(newValue);
+  };
+
+  useEffect(() => {
+    if (props.data !== undefined) {
+      setValue(props.data);
+    } else {
+      // Handle the case when props.data is undefined (clear the editor)
+      setValue("");
+    }
+  }, [props.data]);
+
   return (
-    <div className="App">
-      <div className="app-content">
-        {data ? (
-          <Editor data={data} setData={setData} />
-        ) : (
-          <EditorTextParser data={data} />
-        )}
-      </div>
+    <div>
+      <ReactQuill
+        style={{ height: "75vh", width: "100%" }}
+        theme="snow"
+        value={value}
+        onChange={handleEditorChange}
+        modules={modules}
+      />
     </div>
   );
 }
+
+export default Editor;

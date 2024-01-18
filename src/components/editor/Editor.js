@@ -7,34 +7,35 @@ import { EDITOR_JS_TOOLS } from "./tools/tools";
 import { createReactEditorJS } from "react-editor-js";
 
 export default function Editor({ data, setData }) {
-	const editorCore = useRef(null);
-	const ReactEditorJS = createReactEditorJS();
+  const editorCore = useRef(null);
+  const ReactEditorJS = createReactEditorJS();
 
-	const handleInitialize = useCallback((instance) => {
-		// await instance._editorJS.isReady;
-		instance._editorJS.isReady
-			.then(() => {
-				// set reference to editor
-				editorCore.current = instance;
-			})
-			.catch((err) => console.log("An error occured", err));
-	}, []);
+  const handleInitialize = useCallback((instance) => {
+    // await instance._editorJS.isReady;
+    instance._editorJS.isReady
+      .then(() => {
+        // set reference to editor
+        editorCore.current = instance;
+      })
+      .catch((err) => console.log("An error occured", err));
+  }, []);
 
-	const handleSave = useCallback(async () => {
-		// retrieve data inserted
-		const savedData = await editorCore.current.save();
-		// save data
-		setData(savedData);
-	}, [setData]);
+  const handleSave = useCallback(async () => {
+    // retrieve data inserted
+    const savedData = await editorCore.current.save();
+    // save data
+    setData(savedData);
+  }, [setData]);
 
-	return (
-		<div className="editor-container">
-			<ReactEditorJS
-				onInitialize={handleInitialize}
-				tools={EDITOR_JS_TOOLS}
-				onChange={handleSave}
-				defaultValue={data}
-			/>
-		</div>
-	);
+  return (
+    <div className="editor-container">
+      <ReactEditorJS
+        onInitialize={handleInitialize}
+        tools={EDITOR_JS_TOOLS}
+        onChange={handleSave}
+        defaultValue={data}
+        placeholder="Let make notes here..."
+      />
+    </div>
+  );
 }
