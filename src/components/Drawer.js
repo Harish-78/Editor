@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Resizable } from "react-resizable";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -8,6 +8,8 @@ import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import { FaFolder } from "react-icons/fa";
+
 import { FaFolderPlus } from "react-icons/fa";
 import { MdDelete, MdCreateNewFolder } from "react-icons/md";
 import EditorScreen from "./Editor";
@@ -24,7 +26,7 @@ import { useSnackbar } from "notistack";
 
 const ClippedDrawer = () => {
   const [folders, setFolders] = React.useState([]);
-  const [drawerWidth, setDrawerWidth] = React.useState(240);
+  const [drawerWidth, setDrawerWidth] = React.useState(340);
   const [selectedData, setSelectedData] = React.useState(null);
 
   //delete
@@ -56,6 +58,7 @@ const ClippedDrawer = () => {
     if (folderName !== null && folderName.trim() !== "") {
       const newFolder = {
         id: new Date().getTime(),
+        updationTime: "",
         name: folderName,
         children: [],
         parentId,
@@ -69,18 +72,24 @@ const ClippedDrawer = () => {
   };
 
   const addChild = (parentId) => {
-    const newChild = {
-      id: new Date().getTime(),
-      name: `File`,
-      children: [],
-      parentId,
-      data: {},
-    };
+    const defaultFileName = "New File";
+    const fileName = prompt("Enter the file name:", defaultFileName);
+    if (fileName !== null && fileName.trim() !== "") {
+      const newChild = {
+        id: new Date().getTime(),
+        updationTime: "",
+        name: fileName,
+        children: [],
+        parentId,
+        data: {},
+      };
+      const updatedFolders = addChildToFolder([...folders], parentId, newChild);
 
-    const updatedFolders = addChildToFolder([...folders], parentId, newChild);
-
-    if (updatedFolders) {
-      setFolders(updatedFolders);
+      if (updatedFolders) {
+        setFolders(updatedFolders);
+      }
+    } else {
+      alert("Folder name cannot be empty. Please try again.");
     }
   };
 
@@ -228,7 +237,7 @@ const ClippedDrawer = () => {
                 style={{
                   border: "none",
                   borderRadius: "5px",
-                  padding: "7px",
+                  padding: "2px 9px 2px 3px ",
 
                   background:
                     folder?.id === selectedData?.id ? "lightblue" : "white",
@@ -238,6 +247,14 @@ const ClippedDrawer = () => {
                 }}
                 onDoubleClick={() => handleEditFolderName(folder.id)}
               >
+                <IconButton
+                sx={{
+                  fontSize: "15px",
+                  marginBottom:"5px"
+                }}>
+                <FaFolder />
+
+                </IconButton>
                 {folder?.name}
               </button>
               <IconButton
@@ -261,14 +278,16 @@ const ClippedDrawer = () => {
               >
                 <MdDelete />
               </IconButton>
-              <IconButton
-                onClick={() => handleEditFolderName(folder.id)}
-                sx={{
-                  fontSize: 14,
-                }}
-              >
-                <MdModeEditOutline />
-              </IconButton>
+              {selectedData?.id === folder?.id && (
+                <IconButton
+                  onClick={() => handleEditFolderName(folder.id)}
+                  sx={{
+                    fontSize: 14,
+                  }}
+                >
+                  <MdModeEditOutline />
+                </IconButton>
+              )}
 
               {folder.children &&
                 folder.children.length > 0 &&
@@ -307,6 +326,8 @@ const ClippedDrawer = () => {
       }
     });
   };
+  const dateObject = new Date(selectedData?.id);
+  const createdTime = dateObject.toLocaleString();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -399,7 +420,19 @@ const ClippedDrawer = () => {
               </Button>
             </DialogActions>
           </Dialog>
-          <h2>{selectedData?.name}</h2>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: "15px",
+              padding: "5px",
+            }}
+          >
+            <div>{selectedData && `${selectedData?.name}`}</div>
+            <div>{selectedData && ` Created on : ${createdTime}`}</div>
+          </div>
+
           {selectedData && (
             <EditorScreen
               data={selectedData?.data}
