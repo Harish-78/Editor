@@ -22,11 +22,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useSnackbar } from "notistack";
+import { IoIosArrowDown } from "react-icons/io";
 
 const ClippedDrawer = () => {
   const [folders, setFolders] = React.useState([]);
   const [drawerWidth, setDrawerWidth] = React.useState(340);
   const [selectedData, setSelectedData] = React.useState(null);
+  const [arrowIcon, setArrowIcon] = React.useState(false);
 
   //delete
   const [deleteOpen, setDeleteOpen] = React.useState(false);
@@ -229,8 +231,11 @@ const ClippedDrawer = () => {
                 sx={{
                   fontSize: "15px",
                 }}
+                onClick={() => {
+                  setArrowIcon(!arrowIcon);
+                }}
               >
-                <IoIosArrowForward />
+                {arrowIcon ? <IoIosArrowDown /> : <IoIosArrowForward />}
               </IconButton>
               <button
                 style={{
@@ -266,17 +271,19 @@ const ClippedDrawer = () => {
               >
                 <FaFolderPlus />
               </IconButton>
-              <IconButton
-                onClick={() => {
-                  handleClickDeleteOpen(folder?.id);
-                }}
-                color="error"
-                sx={{
-                  fontSize: 14,
-                }}
-              >
-                <MdDelete />
-              </IconButton>
+              {selectedData?.id === folder?.id && (
+                <IconButton
+                  onClick={() => {
+                    handleClickDeleteOpen(folder?.id);
+                  }}
+                  color="error"
+                  sx={{
+                    fontSize: 14,
+                  }}
+                >
+                  <MdDelete />
+                </IconButton>
+              )}
               {selectedData?.id === folder?.id && (
                 <IconButton
                   onClick={() => handleEditFolderName(folder.id)}
@@ -342,7 +349,7 @@ const ClippedDrawer = () => {
         </Toolbar>
       </AppBar>
       <Resizable
-        width={"min-width"}
+        width={drawerWidth}
         height={600}
         style={{ position: "relative", overflow: "hidden" }}
         minConstraints={[240, 600]}

@@ -40,7 +40,7 @@ function Editor(props) {
   return (
     <div>
       <ReactQuill
-        style={{ height: "65vh", width: "100%" }}
+        style={{ height: "65vh", width: "min-width" }}
         theme="snow"
         value={value}
         onChange={handleEditorChange}
