@@ -9,7 +9,6 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import { FaFolder } from "react-icons/fa";
-
 import { FaFolderPlus } from "react-icons/fa";
 import { MdDelete, MdCreateNewFolder } from "react-icons/md";
 import EditorScreen from "./Editor";
@@ -248,12 +247,12 @@ const ClippedDrawer = () => {
                 onDoubleClick={() => handleEditFolderName(folder.id)}
               >
                 <IconButton
-                sx={{
-                  fontSize: "15px",
-                  marginBottom:"5px"
-                }}>
-                <FaFolder />
-
+                  sx={{
+                    fontSize: "15px",
+                    marginBottom: "5px",
+                  }}
+                >
+                  <FaFolder />
                 </IconButton>
                 {folder?.name}
               </button>
@@ -343,7 +342,7 @@ const ClippedDrawer = () => {
         </Toolbar>
       </AppBar>
       <Resizable
-        width={drawerWidth}
+        width={"min-width"}
         height={600}
         style={{ position: "relative", overflow: "hidden" }}
         minConstraints={[240, 600]}
