@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind Task</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://fontawesome.com/icons/check?f=classic&s=solid"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+  <body>
+    <header class="sticky top-0 z-50">
+      <!-- navbar -->
+
+      <nav class="bg-[#004cd5] p-1 shadow-lg" id="navbar">
+        <div class="container flex justify-between">
+          <div class="flex justify-between">
+            <div class="ml-5 mt-[6px]">
+              <!-- logo tag -->
+              <img
+                src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/logo.png"
+                width="48px"
+                height="48px"
+              />
+            </div>
+
+            <div
+              class="hidden md:flex space-x-4 font-sans-[sans-serif] justify-between py-3 gap-10 px-8 text-white text-xl"
+            >
+              <a class="hover:text-[#161c58]" href="">Home</a>
+              <a class="hover:text-[#161c58]" href="">Create Team</a>
+              <a class="hover:text-[#161c58]" href="">Find Talent</a>
+              <a class="hover:text-[#161c58]" href="">About Us</a>
+            </div>
+          </div>
+          <div class="md:hidden m-3">
+            <!-- menu icon for samll devices -->
+            <button
+              class="flex items-center p-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white cursor-pointer"
+              id="menu-toggle"
+            >
+              <svg
+                class="fill-current h-[18px] w-[28px]"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>Menu</title>
+                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+              </svg>
+            </button>
+          </div>
+          <div class="hidden md:flex justify-items-end">
+            <button
+              class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 512 512"
+              >
+                <title>Mail</title>
+                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                  d="M64 112c-8.8 0-16 7.2-16 16v22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16H64zM48 212.2V384c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64H448c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden">
+          <div class="text-white">
+            <a class="hover:text-[#161c58] block p-2 text-center" href=""
+              >Home</a
+            >
+            <a class="hover:text-[#161c58] block p-2 text-center" href=""
+              >Create Team</a
+            >
+            <a class="hover:text-[#161c58] block p-2 text-center" href=""
+              >Find Talent</a
+            >
+            <a class="hover:text-[#161c58] block p-2 text-center" href=""
+              >About Us</a
+            >
+            <div class="flex justify-center p-2">
+              <button
+                class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1em"
+                  viewBox="0 0 512 512"
+                >
+                  <title>Mail</title>
+                  <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                  <path
+                    d="M64 112c-8.8 0-16 7.2-16 16v22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16H64zM48 212.2V384c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64H448c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- section -->
+
+    <section class="text-white bg-[#004cd5] p-10">
+      <div class="justify-between md:flex m-5">
+        <div class="lg:w-[1/2] p-4">
+          <div>
+            <img
+              src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/features1.jpg"
+            />
+          </div>
+        </div>
+        <div class="lg:[1/2] flex flex-col justify-center text-left">
+          <div>
+            <h1
+              class="md:text-6xl text-3xl md:text-left text-center font-bold m-4 text-white"
+            >
+              Recruiting Agency
+            </h1>
+          </div>
+          <div>
+            <p
+              class="md:m-8 leading-relaxed md:text-2xl text-center md:text-left text-base"
+            >
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus
+              harum quod odit placeat dolorem a! Assumenda voluptatum delectus
+              nulla dolorem vel consequuntur aut voluptatibus facere.
+            </p>
+            <p
+              class="md:m-8 leading-relaxed md:text-2xl text-center md:text-left text-base"
+            >
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus
+              harum quod odit placeat dolorem a!
+            </p>
+          </div>
+          <div class="md:m-8 m-8 md:inline flex justify-center items-center">
+            <a
+              class="border border-white py-4 text-white font-bold px-9"
+              href=""
+              >Get Started</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Features -->
+    <section class="md:p-10 p-3">
+      <div>
+        <h1 class="text-center font-bold text-[50px]">Our features</h1>
+        <div class="md:flex flex-row justify-between">
+          <div
+            class="flex flex-col items-center relative h-full rounded-md bg-[#004cd5] md:m-5 my-3 box-border"
+          >
+            <div class="h-[300px] object-cover">
+              <img
+                src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/features1.jpg"
+                class="block w-full"
+              />
+            </div>
+            <div class="box-border bg-[#004cd5] md:p-8 p-2 md:py-11 py-8">
+              <h1 class="text-left text-white font-normal text-2xl m-5">
+                <strong> Middle and high-level management roles </strong>
+              </h1>
+              <p class="text-white text-left font-normal m-5">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Accusantium enim adipisci repudiandae expedita atque. Inventore!
+              </p>
+              <a class="m-5 text-white border-4 px-5 py-3 border-white">
+                Learn More
+              </a>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center relative h-full rounded-md bg-[#004cd5] md:m-5 my-3 box-border"
+          >
+            <div class="h-[300px] object-cover">
+              <img
+                src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/features2.jpg"
+                class="block w-full h-[300px]"
+              />
+            </div>
+            <div class="box-border bg-[#004cd5] md:p-8 p-2 md:py-11 py-8">
+              <h1 class="text-left text-white font-normal text-2xl m-5">
+                <strong> International roles or multilingual roles </strong>
+              </h1>
+              <p class="text-white text-left font-normal m-5">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Accusantium enim adipisci repudiandae expedita atque. Inventore!
+              </p>
+              <a class="m-5 text-white border-4 px-5 py-3 border-white">
+                Learn More
+              </a>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center relative h-full rounded-md bg-[#004cd5] md:m-5 my-3 box-border"
+          >
+            <div class="h-[300px] object-cover">
+              <img
+                src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/team2.jpg"
+                class="block w-full h-[300px]"
+              />
+            </div>
+            <div class="box-border bg-[#004cd5] md:p-8 p-2 md:py-11 py-8">
+              <h1 class="text-left text-white font-normal text-2xl m-5">
+                <strong>Complex and niche skill profiles</strong>
+              </h1>
+              <p class="text-white text-left font-normal m-5">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Accusantium enim adipisci repudiandae expedita atque. Inventore!
+              </p>
+              <a class="m-5 text-white border-4 px-5 py-3 border-white">
+                Learn More
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Create team -->
+    <section class="bg-[#004cd5] md:flex justify-between p-20">
+      <div>
+        <img
+          src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/img2.png"
+        />
+      </div>
+      <div class="md:flex-col relative md:px-40">
+        <div class=" md:flex-row md:flex  ">
+          <div class="md:inline flex items-center justify-center">
+            <span class="text-[70px] text-white font-thin">
+              <i class="fa fa-check"></i>
+            </span>
+          </div>
+          <div class="md:mx-4">
+            <h1 class="text-[70px] text-white">Create Team</h1>
+          </div>
+        </div>
+        <div class="text-white md:text-left text-center">
+          <p class="md:my-5 leading-6">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            lobortis a urna molestie tempus. Aenean rutrum fermentum tristique.
+            Aenean feugiat lorem odio, sit amet malesuada odio pharetra
+            molestie.
+          </p>
+          <p class="my-5 leading-6">
+            Vestibulum dignissim tellus ac lectus convallis, eu gravida dui
+            semper. Donec vitae feugiat libero. Etiam ac dapibus mi. Aliquam
+            pretium tempor nisl et porttitor. Proin tellus leo, volutpat non ex
+            id, maximus gravida ante.
+          </p>
+          <p class="my-5 leading-6">
+            Ut libero mauris, sodales sit amet maximus in, dignissim et lacus.
+            Nam consequat lobortis malesuada. Curabitur a sollicitudin justo,
+            eget cursus ante. Proin egestas purus felis, vitae congue arcu
+            feugiat vel
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience is personal -->
+    <section>
+      <div class="bg-white md:flex md:py-10  md:px-5 md:h-[80%] md:w-full">
+        <div class="relative top-20 p-10 w-1/2">
+          <div class="z-10 absolute right-4 top-3">
+            <img
+              src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/team.jpg"
+              width="330px"
+              height="200px"
+            />
+          </div>
+          <div class="z-0 relative top-12">
+            <img
+              src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/team2.jpg"
+              width="100%"
+              height="200px"
+            />
+          </div>
+        </div>
+        <div class="w-1/2">
+          <div class="flex md:flex-row w-full">
+            <div>
+              <span class="text-[70px] text-black">
+                <i class="fa fa-check"></i>
+              </span>
+            </div>
+            <div class="mx-2">
+              <h1 class="text-[80px] whitespace-nowrap text-black font-thin">
+                Experience is
+              </h1>
+              <p class="text-sky-800 text-[70px]">personnal</p>
+            </div>
+          </div>
+          <div class="text-black text-left">
+            <p class="mx-20 my-5 leading-6">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              lobortis a urna molestie tempus. Aenean rutrum fermentum
+              tristique. Aenean feugiat lorem odio, sit amet malesuada odio
+              pharetra molestie.
+            </p>
+            <p class="mx-20 my-5 leading-6">
+              Vestibulum dignissim tellus ac lectus convallis, eu gravida dui
+              semper. Donec vitae feugiat libero. Etiam ac dapibus mi. Aliquam
+              pretium tempor nisl et porttitor. Proin tellus leo, volutpat non
+              ex id, maximus gravida ante.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- next section -->
+
+    <section>
+      <div class="flex flex-row justify-between w-full">
+        <div class="text-black text-[25px] text-left py-5 w-[50%]">
+          <p class="mx-10 my-5 leading-10">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            lobortis a urna molestie tempus. Aenean rutrum fermentum tristique.
+            Aenean feugiat lorem odio, sit amet malesuada odio pharetra
+            molestie.
+          </p>
+          <p class="mx-10 my-5 leading-10">
+            Vestibulum dignissim tellus ac lectus convallis, eu gravida dui
+            semper. Donec vitae feugiat libero. Etiam ac dapibus mi. Aliquam
+            pretium tempor nisl et porttitor. Proin tellus leo, volutpat non ex
+            id, maximus gravida ante.
+          </p>
+        </div>
+
+        <div class="relative mx-20 my-10 w-[50%] px-20">
+          <div class="z-10 absolute bottom-[-20px] left-60">
+            <img
+              src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/team.jpg"
+              class="box-border w-[400px]"
+            />
+          </div>
+          <div class="z-0 relative right-14">
+            <img
+              src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/features1.jpg"
+              class="w-[400px]"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+
+    <section class="p-10 w-full bg-[#004cd5]">
+      <div class="flex">
+        <div class="w-[1/2] z-10">
+          <img
+            src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/img1.png"
+          />
+        </div>
+        <div
+          class="flex relative w-[1/2] z-0 text-white text-left p-20 flex-col"
+        >
+          <div>
+            <h1 class="text-[70px]">
+              Find the next talented member of your team
+            </h1>
+          </div>
+          <div class="my-10">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
+              aliquid distinctio dolore totam, perspiciatis non, animi,
+              dignissimos unde at error eius eos atque iusto voluptatum.
+            </p>
+          </div>
+          <div>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
+              deserunt deleniti, quidem numquam quaerat nam, consequatur
+              repellat, officia excepturi perferendis iste quasi earum maxime
+              ipsa!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- /create your own team -->
+    <section class="p-10 w-full bg-[#fff]">
+      <div class="m-5">
+        <h1 class="text-center font-bold text-[50px]">Create your own Team</h1>
+        <p class="text-center text-2xl mb-10">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, vel.
+        </p>
+        <div class="flex flex-row text-center">
+          <div class="m-5">
+            <img
+              src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/team1.jpg"
+            />
+            <h1 class="font-bold text-[30px]">John Smith</h1>
+            <p>Programmer</p>
+          </div>
+
+          <div class="m-5">
+            <img
+              src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/team27.jpg"
+            />
+            <h1 class="font-bold text-[30px]">Adam James</h1>
+            <p>Manager</p>
+          </div>
+
+          <div class="m-5">
+            <img
+              src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/team3.jpg"
+            />
+            <h1 class="font-bold text-[30px]">Jessica Swift</h1>
+            <p>Analyst</p>
+          </div>
+
+          <div class="m-5">
+            <img
+              src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/team4.jpg"
+            />
+            <h1 class="font-bold text-[30px]">Helen Smith</h1>
+            <p>Designer</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- image and quote section -->
+    <section class="p-10 w-full bg-[#fff]">
+      <div class="relative">
+        <div class="z-0">
+          <img
+            src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/team2.jpg"
+            class="w-[60%] h-[60%]"
+          />
+        </div>
+        <div
+          class="z-2 absolute bg-white top-[50%] left-[40%] flex justify-between flex-col items-center max-h-min rounded-md p-4"
+        >
+          <p class="text-[#161734] text-[48px] font-thin">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit nam
+            sunt aliquid veritatis odit ea obcaecati quam id voluptatibus,
+          </p>
+          <div class="flex m-1 p-2">
+            <span class="text-[#004CD5] text-[48px]">
+              <i class="fa fa-quote-right" aria-hidden="true"></i>
+            </span>
+            <div class="p-2">
+              <h3 class="text-[32px] text-[#21224B]">Nils Ostberg</h3>
+              <p class="text-[16px] text-[#CFD4E0]">Managing Director</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact section -->
+
+    <section class="pt-36">
+      <div class="bg-[#004cd5] p-5 flex flex-col">
+        <div class="py-20 flex">
+          <span class="text-[56px] font-thin">
+            <i class="fa fa-check"></i>
+          </span>
+          <h1 class="text-[73.6px] text-white p-1">Contact us</h1>
+        </div>
+        <div class="px-10 flex">
+          <div class="text-white px-10">
+            <span class="text-[32px] font-thin text-black">
+              <i class="fa fa-map-marker"></i>
+            </span>
+            <span class="text-[32px]"> 794 Wildwood Street, Wooster </span>
+          </div>
+          <div>
+            <div class="text-white">
+              <span class="text-[32px] font-thin text-black">
+                <i class="fa fa-map-marker"></i>
+              </span>
+              <span class="text-[32px]">+32 (8) 243 644 72 </span>
+              <span class="text-[32px] block ml-5"> +45 (5) 734 267 73 </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="p-10 w-full bg-[#fff]">
+      <div class="flex justify-between">
+        <div class="w-[1/2]">
+          <img
+            src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/features1.jpg"
+            class=""
+          />
+        </div>
+        <div>
+          <div class="w-[1/2] flex p-10">
+            <div>
+              <span class="text-[56px] font-thin m-2">
+                <i class="fa fa-check"></i>
+              </span>
+            </div>
+            <div>
+              <h1 class="text-[#004CD5] whitespace-nowrap text-[48px] m-2">
+                Write us an message
+              </h1>
+            </div>
+          </div>
+          <div class="w-[1/2]">
+            <form class="p-10">
+              <div class="m-5 flex flex-col">
+                <label class="text-[19.2px]"> First Name </label>
+                <input class="border border-blue-700 p-2" type="text" />
+              </div>
+              <div class="m-5 flex flex-col">
+                <label class="text-[19.2px]"> Last Name </label>
+                <input class="border border-blue-700 p-2" />
+              </div>
+              <div class="m-5 flex flex-col">
+                <label class="text-[19.2px]"> Email </label>
+                <input class="border border-blue-700 p-2" />
+              </div>
+              <div class="m-5 flex flex-col">
+                <label class="text-[19.2px]"> Phone </label>
+                <input class="border border-blue-700 p-2" />
+              </div>
+              <div class="m-5 flex flex-col">
+                <label class="text-[19.2px]"> Additional Information </label>
+                <textarea
+                  class="border border-blue-700 p-2"
+                  rows="10"
+                  cols="40"
+                ></textarea>
+              </div>
+              <div class="my-10 mx-5">
+                <a
+                  class="border-2 border-blue-700 px-[46px] py-[16px] text-[17.6px] font-semibold text-blue-700"
+                >
+                  Submit
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- section Map -->
+
+    <section class="px-10 py-20 w-full bg-[#004cd5]">
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Embedded Map</title>
+        </head>
+        <body>
+          <h1>My Embedded Map</h1>
+
+          <!-- Replace 'YOUR_GOOGLE_MAPS_EMBED_URL' with the actual embed URL from Google Maps -->
+          <iframe
+            width="100%"
+            height="550"
+            frameborder="0"
+            style="border: 0"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12345.67890!2d-123.456789!3d12.3456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDI0JzM1LjYiTiAxMjPCsDMyJzIwLjciVw!5e0!3m2!1sen!2sus!4v1234567890"
+            allowfullscreen
+          >
+          </iframe>
+        </body>
+      </html>
+    </section>
+
+    <!-- footer -->
+    <footer class="px-2 py-4">
+      <div class="flex items-center justify-evenly h-min">
+        <div class="text-[#353535] text-[19.2px]">
+          <h> &#169;.Copyright 2025 Mobirise. </h>
+          <p>All rights reserved</p>
+        </div>
+        <hr class="border-t-2 border-black" />
+        <div class="flex items-center justify-between w-[50%]">
+          <div class="bg-slate-600 w-[300px] h-[2px] block"></div>
+          <img
+            class="w-[55px] h-[55px] invert"
+            src="https://mobirise.com/extensions/teamm4/recruiting-agency/assets/images/logo.png"
+          />
+          <div class="bg-slate-600 w-[300px] h-[2px] block"></div>
+        </div>
+        <div class="text-[#353535] text-[19.2px]">
+          <h1>Legal Notice</h1>
+        </div>
+        <div
+          class="flex items-center justify-evenly w-[10%] text-[#353535] text-[19.2px]"
+        >
+          <span>
+            <i class="fa fa-instagram cursor-pointer"></i>
+          </span>
+          <span>
+            <i class="fa fa-facebook cursor-pointer"></i>
+          </span>
+          <span>
+            <i class="fa fa-twitter cursor-pointer"></i>
+          </span>
+        </div>
+      </div>
+    </footer>
+    <script>
+      const menuToggle = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      menuToggle.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+    </script>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import AppBar from "@mui/material/AppBar";
@@ -10,31 +10,29 @@ import "react-folder-tree/dist/style.css";
 import "./styles.css";
 import "react-resizable/css/styles.css";
 import { Resizable } from "react-resizable";
-import Editor from "./Editor";
+import "./component.css";
+import { BlockNoteView, useBlockNote } from "@blocknote/react";
+import "@blocknote/react/style.css";
 
 export default function ClippedDrawer() {
+  const editor = useBlockNote({
+    onEditorContentChange: (editor) => {
+      console.log(editor.getJSON());
+    },
+  });
+
   const onTreeStateChange = (state, event) => console.log(state, event);
   const [drawerWidth, setDrawerWidth] = React.useState(340);
 
   const onResize = (event, { size }) => {
     setDrawerWidth(size.width);
   };
+
   const treeState = {
-    name: "my-app",
-    checked: 0.5, // half check: some children are checked
-    isOpen: true, // this folder is opened, we can see it's children
-    children: [
-      { name: "src", checked: 0 },
-      {
-        name: "public",
-        checked: 0.5,
-        isOpen: false,
-        children: [
-          { name: "index.html", checked: 0 },
-          { name: "indx.css", checked: 1 },
-        ],
-      },
-    ],
+    name: "folder",
+    checked: 0.5,
+    isOpen: true,
+    children: [],
     data: {},
   };
 
@@ -74,7 +72,7 @@ export default function ClippedDrawer() {
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            Clipped drawer
+            Wiki Editor
           </Typography>
         </Toolbar>
       </AppBar>
@@ -114,7 +112,7 @@ export default function ClippedDrawer() {
       </Resizable>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
-        <Editor />
+        <BlockNoteView editor={editor} />
       </Box>
     </Box>
   );
