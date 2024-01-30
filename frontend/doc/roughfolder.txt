@@ -1,12 +1,16 @@
 import { IconButton } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
-import "./Folder.css";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+
+const ITEM_HEIGHT = 48;
 
 function Folder({
   handleInsertNode = () => {},
@@ -14,7 +18,15 @@ function Folder({
   handleRenameNode = () => {},
   explorer,
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const [expand, setExpand] = useState(false);
   const [showInput, setShowInput] = useState({
     visible: false,
@@ -48,24 +60,10 @@ function Folder({
     handleRenameNode(explorer.id, folderId, newName);
   };
 
-  const handlefileclick = (root, requireFileName) => {
-    setOpen(() => !open);
-    if (root.name === requireFileName) {
-      console.log(root ,  root.data);
-    }
-    for (const nestedItem of root.items) {
-      const foundData = handlefileclick(nestedItem, requireFileName);
-      if (foundData) {
-        console.log("nestedData", foundData);
-      }
-    }
-    return null;
-  };
-
   if (explorer.isFolder) {
     return (
       <div style={{ marginTop: 5 }}>
-        <div onClick={() => handlefileclick(explorer, explorer?.name)}>
+        <div className="folder">
           <IconButton
             onClick={() => setExpand(!expand)}
             sx={{
@@ -76,20 +74,49 @@ function Folder({
           </IconButton>
           <span>
             {!expand ? "📁" : "📂"} {explorer.name}
-            {open && (
-              <div >
-                <IconButton
-                  onClick={(e) => handleNewFolder(e, true)}
-                  color="primary"
-                >
+          </span>
+
+          <div>
+            <IconButton
+              aria-label="more"
+              id="long-button"
+              aria-controls={open ? "long-menu" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="long-menu"
+              MenuListProps={{
+                "aria-labelledby": "long-button",
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              PaperProps={{
+                style: {
+                  maxHeight: ITEM_HEIGHT * 4.5,
+                  width: "10ch",
+                },
+              }}
+            >
+              <MenuItem onClick={(e) => handleNewFolder(e, true)}>
+                <IconButton color="primary">
                   <CreateNewFolderIcon />
                 </IconButton>
+              </MenuItem>
+
+              <MenuItem>
                 <IconButton
                   onClick={(e) => handleNewFolder(e, false)}
                   color="secondary"
                 >
                   <NoteAddIcon />
                 </IconButton>
+              </MenuItem>
+              <MenuItem>
                 <IconButton
                   onClick={(e) => onDeleteFolder(e, explorer.id)}
                   color="error"
@@ -99,15 +126,19 @@ function Folder({
                 >
                   <DeleteIcon />
                 </IconButton>
+              </MenuItem>
+
+              <MenuItem>
+                {" "}
                 <IconButton
                   onClick={(e) => onRenameFolder(e, explorer.id, "NewName")}
                   color="info"
                 >
                   <EditIcon />
                 </IconButton>
-              </div>
-            )}
-          </span>
+              </MenuItem>
+            </Menu>
+          </div>
         </div>
 
         <div style={{ display: expand ? "block" : "none", paddingLeft: 25 }}>

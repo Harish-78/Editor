@@ -3,14 +3,14 @@ import Folder from "../components/Folder";
 import controlImg from "../assets/images/control.png";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { useState } from "react";
-import "./Folder.css";
 import useTraverseTree from "../hooks/use-traverse-tree";
 import explorer from "../assets/Folder Data/folderData";
 import Editor from "./EditorScreen";
-import { templates } from "../assets/data/templates";
-import { Card } from "@mui/material";
-
+import { Button } from "@mui/material";
+import { useData } from "../context/DataContext";
+import { useNavigate } from "react-router-dom";
 const FilesScreen = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const [explorerData, setExplorerData] = useState(explorer);
   const [dataFromEditor, setDataFromEditor] = useState(null);
@@ -22,17 +22,22 @@ const FilesScreen = () => {
   const dataSubmission = () => {
     setExplorerData((prevExplorerData) => ({
       ...prevExplorerData,
-      data: "",
+      data: [dataFromEditor],
     }));
   };
 
+  //editor
   console.log(dataFromEditor);
+
+  //folder
 
   console.log(explorerData);
 
   useEffect(() => {
     dataSubmission();
   }, [dataFromEditor]);
+
+  const { data } = useData();
 
   const { insertNode } = useTraverseTree();
 
@@ -87,17 +92,22 @@ const FilesScreen = () => {
       </div>
 
       <div className="w-full">
-        <div className="flex flex-grow m-5">
-          {templates?.length
-            ? templates.map((item, index) => (
-                <div key={index} className="m-5">
-                  <Card>
-                    <img src={item?.imageUrl} alt="templates" />
-                    <h1>{item?.name}</h1>
-                  </Card>
-                </div>
-              ))
-            : null}
+        <div className="flex justify-end m-4">
+          {data && (
+            <Button
+              variant="contained"
+              color="inherit"
+              onClick={() => {
+                navigate(-1);
+              }}
+              sx={{
+                marginRight: "10px",
+              }}
+            >
+              Back
+            </Button>
+          )}
+          <Button variant="contained">Share</Button>
         </div>
         <Editor onDataFromChild={handleDataFromChild} />
       </div>

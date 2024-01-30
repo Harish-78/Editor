@@ -436,8 +436,6 @@ const ClippedDrawer = () => {
             <div>{selectedData && `${selectedData?.name}`}</div>
             <div>{selectedData && ` Created on : ${createdTime}`}</div>
           </div>
-
-         
         </div>
       </Box>
     </Box>

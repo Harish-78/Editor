@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useBlockNote, BlockNoteView } from "@blocknote/react";
 import "@blocknote/react/style.css";
+import { useData } from "../context/DataContext";
 
 const now = Date.now();
 
@@ -18,8 +19,11 @@ const Editor = ({ onDataFromChild }) => {
     sendDatatoFileScreen();
   });
 
+  const { data } = useData();
+  console.log(data);
+
   const editor = useBlockNote({
-    initialContent: editorData?.blocks ?? [],
+    initialContent: data ? data?.blocks : editorData?.blocks ?? [],
     onEditorContentChange: (editor) => {
       setEditorData({
         time: Date.now(),

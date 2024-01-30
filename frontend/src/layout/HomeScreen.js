@@ -8,9 +8,11 @@ import SettingsScreen from "../Screens/SettingsScreen";
 import TemplatesScreen from "../Screens/TemplatesScreen";
 import TrashScreen from "../Screens/TrashScreen";
 import FilesScreen from "../Screens/FilesScreen";
+import { useNavigate } from "react-router-dom";
 
 const HomeScreen = () => {
   const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
   const [renderComponent, setRenderComponent] = useState(null);
   const [title, setTitle] = useState("");
   const Menus = [
@@ -21,12 +23,13 @@ const HomeScreen = () => {
       path: "/files",
       gap: true,
     },
-    { title: "Settings", path: "/settings", src: SettingImg },
     {
       title: "Templates",
       path: "/templates",
       src: "https://cdn-icons-png.freepik.com/256/5080/5080020.png?ga=GA1.1.1847498234.1706074892&semt=ais",
     },
+    { title: "Settings", path: "/settings", src: SettingImg },
+
     {
       title: "Trash",
       path: "/trash",
@@ -69,6 +72,9 @@ const HomeScreen = () => {
         />
         <div className="flex gap-x-4 items-center">
           <img
+            onClick={() => {
+              navigate("/");
+            }}
             src={aroopaImg}
             className={`cursor-pointer duration-500 w-7 b ${
               open && "rotate-[360deg]"
@@ -105,7 +111,7 @@ const HomeScreen = () => {
       </div>
       <div className="h-screen  overflow-hidden w-full">
         <div className="w-full  shadow-md p-6 text-dark-purple text-xl font-medium ">
-          {title}{" "}
+          {title}
         </div>
         {renderComponent}
       </div>
