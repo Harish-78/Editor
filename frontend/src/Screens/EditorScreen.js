@@ -7,7 +7,6 @@ import aroopaImg from "../assets/images/aroopa.jpeg";
 import controlImg from "../assets/images/control.png";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import useTraverseTree from "../hooks/use-traverse-tree";
-import explorer from "../assets/Folder Data/folderData";
 import { useNavigate } from "react-router-dom";
 import { useFolderData } from "../context/FolderDataContext";
 
@@ -16,15 +15,20 @@ const now = new Date().getTime();
 const Editor = () => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
-  const [explorerData, setExplorerData] = useState(explorer);
-
+  const { setSharedData, folderData } = useFolderData();
+  const [explorerData, setExplorerData] = useState(folderData);
   const [editorData, setEditorData] = useState({
     time: now,
     blocks: [],
   });
 
+  React.useEffect(() => {
+    setExplorerData(folderData);
+    console.log("Folder data: ", folderData);
+  }, [folderData]);
+
+  console.log("Explorer: ", explorerData);
   const { data } = useData();
-  // console.log(data);
 
   const editor = useBlockNote({
     initialContent: data.length ? data[0]?.blocks : editorData?.blocks ?? [],
@@ -38,20 +42,16 @@ const Editor = () => {
       editor.domElement?.focus();
     },
   });
-  const { setSharedData } = useFolderData();
+
   const { insertNode } = useTraverseTree();
 
   const handleInsertNode = (folderId, item, isFolder) => {
     const finalTree = insertNode(explorerData, folderId, item, isFolder);
     setExplorerData(finalTree);
-    setSharedData(explorerData);
+    setSharedData(finalTree);
   };
 
-  // console.log(explorerData);
-  // console.log(editorData);
-
   const lastEditedTime = new Date(editorData ? editorData.time : data[1]?.time);
-  console.log();
 
   return (
     <div className="h-full">

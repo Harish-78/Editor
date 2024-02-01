@@ -8,20 +8,39 @@ import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { useFolderData } from "../context/FolderDataContext";
 
-function Folder({
-  handleInsertNode = () => {},
-  handleRenameNode = () => {},
-  explorer,
-}) {
+function Folder({ handleInsertNode = () => {}, explorer }) {
   const [hover, setHover] = React.useState(false);
   const [expand, setExpand] = useState(false);
+  const [deletedData, setDeletedData] = useState(null);
   const [showInput, setShowInput] = useState({
     visible: false,
     isFolder: false,
   });
 
-  const { folderData } = useFolderData();
-  console.log(folderData);
+  const [editing, setEditing] = useState(false);
+  const [newName, setNewName] = useState(explorer.name);
+
+  const [selectedData, setSelectedData] = useState([]);
+  const handleDoubleClick = () => {
+    setEditing(true);
+  };
+
+  const handleNameChange = (e) => {
+    setNewName(e.target.value);
+  };
+
+  const handleBlur = () => {
+    setEditing(false);
+    onRenameFolder(explorer.id, newName);
+  };
+
+  const { folderData, setSharedData } = useFolderData();
+
+  React.useEffect(() => {
+    console.log(deletedData);
+    setSharedData(deletedData ? deletedData : folderData);
+  }, [deletedData, folderData, setSharedData]);
+
   const handleNewFolder = (e, isFolder) => {
     e.stopPropagation();
     setExpand(true);
@@ -30,7 +49,6 @@ function Folder({
       isFolder,
     });
   };
-
 
   const onAddFolder = (e) => {
     if (e.keyCode === 13 && e.target.value) {
@@ -41,26 +59,52 @@ function Folder({
     setHover(false);
   };
 
-  const onDeleteFolder = (e, folderId, parentID) => {
+  const onDeleteFolder = (e, folderId) => {
     e.stopPropagation();
 
-    const updatedData = deleteObjectByIdAndParentId(folderData, folderId, parentID);
-    console.log("a", updatedData);
+    const updatedData = deleteObjectFromArray(folderData, folderId);
+    setDeletedData(updatedData);
   };
 
-  function deleteObjectByIdAndParentId(obj, idToDelete, parentIdToDelete) {
-   
+  function deleteObjectFromArray(rootObject, objectId) {
+    function deleteRecursive(arr, parentId) {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].id === objectId) {
+          arr.splice(i, 1);
+          return;
+        }
 
-    
-}
+        if (arr[i].items.length > 0) {
+          deleteRecursive(arr[i].items, arr[i].id);
+        }
+      }
+    }
 
-
-
+    deleteRecursive(rootObject.items, rootObject.id);
+    return rootObject;
+  }
 
   const onRenameFolder = (e, folderId, newName) => {
-    e.stopPropagation();
-    handleRenameNode(explorer.id, folderId, newName);
+    handleRenameNode(folderData, folderId, newName);
   };
+
+  function handleRenameNode(rootObject, objectId, newName) {
+    function renameRecursive(arr, parentId, newName) {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].id === objectId) {
+          arr[i].name = newName;
+          return;
+        }
+
+        if (arr[i].items.length > 0) {
+          renameRecursive(arr[i].items, arr[i].id, newName); // Pass newName to the recursive call
+        }
+      }
+    }
+
+    renameRecursive(rootObject.items, rootObject.id, newName);
+    return rootObject;
+  }
 
   const handlefileclick = (root, requireFileName) => {
     if (root.name === requireFileName) {
@@ -90,51 +134,68 @@ function Folder({
             {expand ? <IoIosArrowDown /> : <IoIosArrowForward />}
           </IconButton>
           <span
-            className="flex"
+            className={`flex ${editing ? "editing" : ""} background:
+            ${explorer?.id === selectedData?.id} ? "lightblue" : "white",
+      `}
+            onDoubleClick={handleDoubleClick}
             onClick={() => handlefileclick(explorer, explorer?.name)}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
           >
-            📄 {explorer.name}
-            {hover && (
-              <div className="ml-5">
-                <IconButton
-                  onClick={(e) => handleNewFolder(e, true)}
-                  color="primary"
-                  sx={{
-                    fontSize: "12px",
-                    position: "relative",
-                    bottom: "2px",
-                  }}
-                >
-                  <FaRegFile />
-                </IconButton>
+            {editing ? (
+              <input
+                type="text"
+                value={newName}
+                onChange={handleNameChange}
+                onBlur={handleBlur}
+                autoFocus
+              />
+            ) : (
+              <>
+                📄 {explorer.name}
+                {hover && (
+                  <div className="ml-5">
+                    <IconButton
+                      onClick={(e) => handleNewFolder(e, true)}
+                      color="primary"
+                      sx={{
+                        fontSize: "12px",
+                        position: "relative",
+                        bottom: "2px",
+                      }}
+                    >
+                      <FaRegFile />
+                    </IconButton>
 
-                <IconButton
-                  onClick={(e) =>
-                    onDeleteFolder(e, explorer?.id, explorer?.parentID)
-                  }
-                  color="error"
-                  sx={{
-                    fontSize: "15px",
-                    position: "relative",
-                    bottom: "2px",
-                  }}
-                >
-                  <MdDelete />
-                </IconButton>
-                <IconButton
-                  onClick={(e) => onRenameFolder(e, explorer.id, "NewName")}
-                  color="info"
-                  sx={{
-                    fontSize: "16px",
-                    position: "relative",
-                    bottom: "2px",
-                  }}
-                >
-                  <MdEdit />
-                </IconButton>
-              </div>
+                    <IconButton
+                      onClick={(e) =>
+                        onDeleteFolder(e, explorer?.id, explorer?.parentID)
+                      }
+                      color="error"
+                      sx={{
+                        fontSize: "15px",
+                        position: "relative",
+                        bottom: "2px",
+                      }}
+                    >
+                      <MdDelete />
+                    </IconButton>
+                    <IconButton
+                      onClick={(e) =>
+                        onRenameFolder(e, explorer?.id, "NewName")
+                      }
+                      color="info"
+                      sx={{
+                        fontSize: "16px",
+                        position: "relative",
+                        bottom: "2px",
+                      }}
+                    >
+                      <MdEdit />
+                    </IconButton>
+                  </div>
+                )}
+              </>
             )}
           </span>
         </div>
