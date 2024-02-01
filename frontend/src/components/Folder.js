@@ -49,28 +49,11 @@ function Folder({
   };
 
   function deleteObjectByIdAndParentId(obj, idToDelete, parentIdToDelete) {
-    // Check if the current object matches the id and parentID
-    if (obj.id === idToDelete && obj.parentID === parentIdToDelete) {
-        // Remove the object from the parent's items array
-        const parentItems = obj.parentID ? obj.parentID.items : explorer.items;
-        const indexToRemove = parentItems?.findIndex(item => item.id === obj.id);
-        if (indexToRemove !== -1) {
-            parentItems?.splice(indexToRemove, 1);
-        }
-        return ;
-    }
+   
 
-    // Recursively search in the items array
-    if (obj.items && obj.items.length > 0) {
-        for (const item of obj.items) {
-            deleteObjectByIdAndParentId(item, idToDelete, parentIdToDelete);
-        }
-    }
+    
 }
 
-// Example usage:
-
-// After deletion, you can check the updated explorer object
 
 
 
