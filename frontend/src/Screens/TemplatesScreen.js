@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { templates } from "../assets/data/templates";
 import { useData } from "../context/DataContext";
 import { useNavigate } from "react-router-dom";
 const TemplatesScreen = () => {
   const { setSharedData } = useData();
   const navigate = useNavigate();
-  const handleTemplatesOnclick = (newData) => {
-    setSharedData(newData);
+  const handleTemplatesOnclick = (newData, name) => {
+    setSharedData(() => {
+      const availableData = [];
+      availableData.push(newData, name);
+      return availableData;
+    });
     console.log(newData);
-    navigate("/files");
+    navigate("/editor");
   };
+  
   return (
     <div className="overflow-scroll h-full">
       <div className="flex flex-wrap h-full">
@@ -18,7 +23,7 @@ const TemplatesScreen = () => {
               <div
                 key={index}
                 className="m-5 w-40 flex justify-center items-center flex-col  rounded-md shadow-md"
-                onClick={() => handleTemplatesOnclick(item?.data)}
+                onClick={() => handleTemplatesOnclick(item?.data, item?.name)}
               >
                 <img
                   src={item?.imageUrl}

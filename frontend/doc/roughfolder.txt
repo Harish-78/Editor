@@ -173,3 +173,28 @@ function Folder({
 }
 
 export default Folder;
+
+
+
+
+
+
+
+
+
+
+ <div className="m-3">
+            <TextField
+              size="small"
+              margin="dense"
+              variant="standard"
+              placeholder="Search"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <img src={SearchImg} alt="SearchImg" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>

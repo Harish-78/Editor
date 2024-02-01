@@ -16,7 +16,7 @@ const HomeScreen = () => {
   const [renderComponent, setRenderComponent] = useState(null);
   const [title, setTitle] = useState("");
   const Menus = [
-    { title: "Search", path: "/", src: SearchImg },
+    { title: "Search", path: "/dialog", src: SearchImg },
     {
       title: "Files ",
       src: FolderImg,
@@ -110,8 +110,14 @@ const HomeScreen = () => {
         </ul>
       </div>
       <div className="h-screen  overflow-hidden w-full">
-        <div className="w-full  shadow-md p-6 text-dark-purple text-xl font-medium ">
-          {title}
+        <div className="w-full   shadow-md ">
+          <p
+            className={` text-dark-purple ${
+              title ? `p-2 m-4` : `py-5 m-4`
+            } text-xl font-medium`}
+          >
+            {title}
+          </p>
         </div>
         {renderComponent}
       </div>

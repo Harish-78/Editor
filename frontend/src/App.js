@@ -7,6 +7,7 @@ import "./App.css";
 import FilesScreen from "./Screens/FilesScreen";
 import TrashScreen from "./Screens/TrashScreen";
 import TemplatesScreen from "./Screens/TemplatesScreen";
+import Editor from "./Screens/EditorScreen";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/files" element={<FilesScreen />} />
           <Route path="/trash" element={<TrashScreen />} />
           <Route path="/templates" element={<TemplatesScreen />} />
+          <Route path="/editor" element={<Editor />} />
         </Routes>
       </BrowserRouter>
     </div>

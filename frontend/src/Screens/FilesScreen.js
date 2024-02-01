@@ -1,51 +1,26 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Folder from "../components/Folder";
 import controlImg from "../assets/images/control.png";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { useState } from "react";
 import useTraverseTree from "../hooks/use-traverse-tree";
 import explorer from "../assets/Folder Data/folderData";
-import Editor from "./EditorScreen";
-import { Button } from "@mui/material";
-import { useData } from "../context/DataContext";
-import { useNavigate } from "react-router-dom";
+import { InputAdornment, TextField } from "@mui/material";
+import { FaClockRotateLeft } from "react-icons/fa6";
+import SearchImg from "../assets/images/Search.png";
+
 const FilesScreen = () => {
-  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const [explorerData, setExplorerData] = useState(explorer);
-  const [dataFromEditor, setDataFromEditor] = useState(null);
-
-  const handleDataFromChild = (data) => {
-    setDataFromEditor(data);
-  };
-
-  const dataSubmission = () => {
-    setExplorerData((prevExplorerData) => ({
-      ...prevExplorerData,
-      data: [dataFromEditor],
-    }));
-  };
-
-  //editor
-  console.log(dataFromEditor);
-
-  //folder
-
-  console.log(explorerData);
-
-  useEffect(() => {
-    dataSubmission();
-  }, [dataFromEditor]);
-
-  const { data } = useData();
-
   const { insertNode } = useTraverseTree();
-
   const handleInsertNode = (folderId, item, isFolder) => {
     const finalTree = insertNode(explorerData, folderId, item, isFolder);
     setExplorerData(finalTree);
   };
-  // console.log("Folder: ", explorerData);
+  
+  React.useEffect(() => {
+    console.log(explorerData);
+  }, [explorerData]);
 
   return (
     <div className="m-3 flex ">
@@ -68,7 +43,7 @@ const FilesScreen = () => {
             } gap-x-4 items-center`}
           >
             <div>
-              <div className="flex justify-center">
+              <div className="flex justify-start">
                 <MdOutlineLibraryBooks className="w-5 h-5" />
                 <h1
                   className={`text-dark-purple origin-left font-medium text-xl duration-200 ${
@@ -92,24 +67,33 @@ const FilesScreen = () => {
       </div>
 
       <div className="w-full">
-        <div className="flex justify-end m-4">
-          {data && (
-            <Button
-              variant="contained"
-              color="inherit"
-              onClick={() => {
-                navigate(-1);
-              }}
-              sx={{
-                marginRight: "10px",
-              }}
-            >
-              Back
-            </Button>
-          )}
-          <Button variant="contained">Share</Button>
-        </div>
-        <Editor onDataFromChild={handleDataFromChild} />
+        {
+          <div>
+            <div className="m-3 flex justify-end">
+              <TextField
+                size="small"
+                margin="dense"
+                variant="standard"
+                placeholder="Search"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <img src={SearchImg} alt="SearchImg" />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </div>
+            <div className="flex">
+              <div className="my-6 mx-4">
+                <FaClockRotateLeft />
+              </div>
+              <p className="text-dark-purple font-medium text-xl">
+                Recent documents
+              </p>
+            </div>
+          </div>
+        }
       </div>
     </div>
   );

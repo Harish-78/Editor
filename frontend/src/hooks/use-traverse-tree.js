@@ -7,6 +7,7 @@ const useTraverseTree = () => {
         isFolder: isFolder,
         items: [],
         data: [],
+        parentID: folderId,
       });
 
       return tree;
@@ -20,36 +21,44 @@ const useTraverseTree = () => {
     return { ...tree, items: latestNode };
   };
 
+  
   const deleteNode = (tree, folderId) => {
-    let indexToRemove = -1;
-
-    tree.items.forEach((item, index) => {
-      if (item.id === folderId) {
-        indexToRemove = index;
-      } else if (item.isFolder) {
-        deleteNode(item, folderId);
-      }
-    });
-
-    if (indexToRemove !== -1) {
-      tree.items.splice(indexToRemove, 1);
+    console.log(tree, folderId);
+    const updatedFolders = deleteFolderById([...tree.items], folderId);
+    if (updatedFolders) {
+      tree.items = updatedFolders;
     }
-
-    return tree;
   };
 
-  const renameNode = (tree, folderId, newName) => {
-    tree.items = tree.items.map((item) => {
-      if (item.id === folderId) {
-        item.name = newName;
-      } else if (item.isFolder) {
-        renameNode(item, folderId, newName);
+  const deleteFolderById = (currentFolders, targetId) => {
+    let updatedFolders = null;
+
+    const findAndDelete = (folders) => {
+      for (let i = 0; i < folders.length; i++) {
+        const folder = folders[i];
+
+        if (folder.id === targetId) {
+          folders.splice(i, 1);
+          updatedFolders = [...folders];
+          break;
+        }
+
+        if (folder.items && folder.items.length > 0) {
+          findAndDelete(folder.items);
+
+          if (updatedFolders) {
+            break;
+          }
+        }
       }
-      return item;
-    });
+    };
 
-    return tree;
+    findAndDelete(currentFolders);
+
+    return updatedFolders;
   };
+
+  const renameNode = (tree, folderId, newName) => {};
 
   return { insertNode, deleteNode, renameNode };
 };
