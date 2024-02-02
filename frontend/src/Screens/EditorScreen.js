@@ -25,7 +25,8 @@ const Editor = () => {
   React.useEffect(() => {
     setExplorerData(folderData);
     console.log("Folder data: ", folderData);
-  }, [folderData]);
+    console.log("editorData", editorData);
+  }, [folderData, editorData]);
 
   console.log("Explorer: ", explorerData);
   const { data } = useData();
@@ -52,6 +53,9 @@ const Editor = () => {
   };
 
   const lastEditedTime = new Date(editorData ? editorData.time : data[1]?.time);
+
+
+  
 
   return (
     <div className="h-full">

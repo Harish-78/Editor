@@ -1,10 +1,10 @@
 export const explorer = {
-  id: new Date().getTime(),
-  name: "Document",
+  id: 1,
+  name: "",
   isFolder: true,
   items: [],
   data: [],
-  
+  expand: true,
 };
 
 export default explorer;
