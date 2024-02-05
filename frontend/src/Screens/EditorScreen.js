@@ -33,6 +33,7 @@ const Editor = () => {
   const editor = useBlockNote({
     initialContent: data.length ? data[0]?.blocks : editorData?.blocks ?? [],
     onEditorContentChange: (editor) => {
+      
       setEditorData({
         time: Date.now(),
         blocks: editor.topLevelBlocks,
