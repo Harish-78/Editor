@@ -11,8 +11,6 @@ export const FolderDataProvider = ({ children }) => {
     setFolderData(newData);
   };
 
-  console.log("Folder Data After update ", folderData);
-
   return (
     <FolderDataContext.Provider value={{ folderData, setSharedData }}>
       {children}

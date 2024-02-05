@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeScreen from "./layout/HomeScreen";
 import SettingsScreen from "./Screens/SettingsScreen";
-import "./App.css";
 import TrashScreen from "./Screens/TrashScreen";
 import TemplatesScreen from "./Screens/TemplatesScreen";
 import Editor from "./Screens/EditorScreen";

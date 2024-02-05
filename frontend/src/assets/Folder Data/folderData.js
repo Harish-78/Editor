@@ -1,9 +1,14 @@
 export const explorer = {
-  id: 1,
+  _id: 1,
   name: "",
   isFolder: true,
   items: [],
-  data: [],
+  data: [
+    {
+      time: new Date().getTime(),
+      blocks: [],
+    },
+  ],
   expand: true,
 };
 

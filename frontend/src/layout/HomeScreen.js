@@ -6,7 +6,6 @@ import aroopaImg from "../assets/images/aroopa.jpeg";
 import SettingsScreen from "../Screens/SettingsScreen";
 import TemplatesScreen from "../Screens/TemplatesScreen";
 import TrashScreen from "../Screens/TrashScreen";
-import FilesScreen from "../Screens/FilesScreen";
 import { useNavigate } from "react-router-dom";
 import SimpleDialogDemo from "../components/SearchDialog";
 import Home from "../Screens/Home";
@@ -46,9 +45,7 @@ const HomeScreen = () => {
       case "/searchDialog":
         setRenderComponent(<SimpleDialogDemo />);
         break;
-      case "/files":
-        setRenderComponent(<FilesScreen />);
-        break;
+
       case "/settings":
         setRenderComponent(<SettingsScreen />);
         break;

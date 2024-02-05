@@ -51,7 +51,6 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
   };
 
   const { folderData, setSharedData } = useFolderData();
-
   React.useEffect(() => {
     console.log(deletedData);
     setSharedData(deletedData ? deletedData : folderData);
@@ -122,11 +121,11 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
 
   const handlefileclick = (root, requireFileName) => {
     if (root.name === requireFileName) {
-      console.log(root, root.data);
       setSelectedData(root);
     } else {
       setSelectedData(null);
     }
+    console.log(selectedData);
     for (const nestedItem of root.items) {
       const foundData = handlefileclick(nestedItem, requireFileName);
       if (foundData) {
@@ -136,13 +135,11 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
     return null;
   };
 
-  console.log(selectedData);
-
   if (explorer.isFolder) {
     return (
       <div>
         <div>
-          {explorer?.id === 1 && (
+          {explorer?._id === 1 && (
             <div className="flex justify-between m-2">
               <div>
                 <p className="text-xl text-dark-purple font-serif mb-4">
@@ -165,7 +162,7 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
         </div>
 
         <div className="flex ">
-          {explorer?.id !== 1 && (
+          {explorer?._id !== 1 && (
             <IconButton
               onClick={() => setExpand(!expand)}
               sx={{
@@ -182,7 +179,7 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
             onClick={() => handlefileclick(explorer, explorer?.name)}
           >
             <>
-              {explorer?.id !== 1 && "📄"} {explorer.name}
+              {explorer?._id !== 1 && "📄"} {explorer.name}
               {
                 <div className="ml-5">
                   {explorer?.id !== 1 && (
@@ -199,7 +196,7 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
                     </IconButton>
                   )}
 
-                  {explorer?.id !== 1 && (
+                  {explorer?._id !== 1 && (
                     <IconButton
                       onClick={() => handleClickDeleteOpen(explorer?.id)}
                       color="error"
@@ -212,7 +209,7 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
                       <MdDelete />
                     </IconButton>
                   )}
-                  {explorer?.id !== 1 && (
+                  {explorer?._id !== 1 && (
                     <IconButton
                       onClick={(e) =>
                         handleClickRenameOpen(e, explorer?.id, explorer?.name)

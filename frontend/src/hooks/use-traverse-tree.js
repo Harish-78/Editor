@@ -6,7 +6,12 @@ const useTraverseTree = () => {
         name: item,
         isFolder: isFolder,
         items: [],
-        data: [],
+        data: [
+          {
+            time: new Date().getTime(),
+            blocks: [],
+          },
+        ],
         parentID: folderId,
       });
 
@@ -21,7 +26,6 @@ const useTraverseTree = () => {
     return { ...tree, items: latestNode };
   };
 
-  
   const deleteNode = (tree, folderId) => {
     console.log(tree, folderId);
     const updatedFolders = deleteFolderById([...tree.items], folderId);
