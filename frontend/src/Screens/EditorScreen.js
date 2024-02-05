@@ -17,21 +17,16 @@ const Editor = () => {
   const [open, setOpen] = React.useState(true);
   const { setSharedData, folderData } = useFolderData();
   const [explorerData, setExplorerData] = useState(folderData);
-  const [editorData, setEditorData] = useState({
-    time: now,
-    blocks: [],
-  });
+
+  const [editorData, setEditorData] = useState();
 
   React.useEffect(() => {
     setExplorerData(folderData);
-    console.log("Folder data: ", folderData);
-  }, [folderData]);
-
-  console.log("Explorer: ", explorerData);
-  const { data } = useData();
+    console.log(folderData);
+  }, [folderData, editorData]);
 
   const editor = useBlockNote({
-    initialContent: data.length ? data[0]?.blocks : editorData?.blocks ?? [],
+    initialContent: editorData?.blocks ?? [],
     onEditorContentChange: (editor) => {
       
       setEditorData({
@@ -52,7 +47,7 @@ const Editor = () => {
     setSharedData(finalTree);
   };
 
-  const lastEditedTime = new Date(editorData ? editorData.time : data[1]?.time);
+  // const lastEditedTime = new Date(editorData ? editorData.time : data[1]?.time);
 
   return (
     <div className="h-full">
@@ -99,16 +94,6 @@ const Editor = () => {
                     Explorer
                   </h1>
                 </div>
-                {/* <div className={`duration-200 ${!open && "scale-0"}`}>
-                  <IconButton
-                    color="primary"
-                    sx={{
-                      fontSize: "15px",
-                    }}
-                  >
-                    <BsFillFileEarmarkPlusFill />
-                  </IconButton>
-                </div> */}
               </div>
               {open && (
                 <div>
@@ -123,10 +108,6 @@ const Editor = () => {
         </div>
         <div className="ml-4 w-[90%]">
           <div className="flex justify-between m-3">
-            <p className="font-medium text-xl text-dark-purple m-5">
-              {data[1]}
-            </p>
-            <p>Last Edited on : {lastEditedTime.toLocaleString()}</p>
           </div>
           <BlockNoteView editor={editor} />
         </div>

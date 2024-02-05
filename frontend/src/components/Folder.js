@@ -7,35 +7,50 @@ import { FaRegFile } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { useFolderData } from "../context/FolderDataContext";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 
 function Folder({ handleInsertNode = () => {}, explorer }) {
-  const [hover, setHover] = React.useState(false);
-  const [expand, setExpand] = useState(false);
+  const [expand, setExpand] = useState(true);
   const [deletedData, setDeletedData] = useState(null);
   const [showInput, setShowInput] = useState({
     visible: false,
     isFolder: false,
   });
 
-  const [editing, setEditing] = useState(false);
-  const [newName, setNewName] = useState(explorer.name);
+  const [selectedData, setSelectedData] = useState(null);
+  const [renameopen, setRenameOpen] = React.useState(false);
+  const [deleteopen, setDeleteOpen] = React.useState(false);
+  const [deleteID, setDeleteID] = useState();
+  const [renameId, setRenameId] = useState();
+  const [newName, setNewName] = useState("");
 
-  const [selectedData, setSelectedData] = useState([]);
-  const handleDoubleClick = () => {
-    setEditing(true);
+  const handleClickRenameOpen = (e, id, name) => {
+    setNewName(name);
+    setRenameOpen(true);
+    setRenameId(id);
+  };
+  const handleClickDeleteOpen = (id) => {
+    setDeleteOpen(true);
+    setDeleteID(id);
+  };
+  const handleDeleteClose = () => {
+    setDeleteOpen(false);
+  };
+
+  const handleRenameClose = () => {
+    setRenameOpen(false);
   };
 
   const handleNameChange = (e) => {
     setNewName(e.target.value);
   };
 
-  const handleBlur = () => {
-    setEditing(false);
-    onRenameFolder(explorer.id, newName);
-  };
-
   const { folderData, setSharedData } = useFolderData();
-
   React.useEffect(() => {
     console.log(deletedData);
     setSharedData(deletedData ? deletedData : folderData);
@@ -56,14 +71,12 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
 
       setShowInput({ ...showInput, visible: false });
     }
-    setHover(false);
   };
 
-  const onDeleteFolder = (e, folderId) => {
-    e.stopPropagation();
-
+  const onDeleteFolder = (folderId) => {
     const updatedData = deleteObjectFromArray(folderData, folderId);
     setDeletedData(updatedData);
+    handleDeleteClose();
   };
 
   function deleteObjectFromArray(rootObject, objectId) {
@@ -84,7 +97,7 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
     return rootObject;
   }
 
-  const onRenameFolder = (e, folderId, newName) => {
+  const onRenameFolder = (folderId, newName) => {
     handleRenameNode(folderData, folderId, newName);
   };
 
@@ -108,12 +121,15 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
 
   const handlefileclick = (root, requireFileName) => {
     if (root.name === requireFileName) {
-      console.log(root, root.data);
+      setSelectedData(root);
+    } else {
+      setSelectedData(null);
     }
+    console.log(selectedData);
     for (const nestedItem of root.items) {
       const foundData = handlefileclick(nestedItem, requireFileName);
       if (foundData) {
-        console.log("nestedData", foundData);
+        setSelectedData(foundData);
       }
     }
     return null;
@@ -122,39 +138,51 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
   if (explorer.isFolder) {
     return (
       <div>
+        <div>
+          {explorer?._id === 1 && (
+            <div className="flex justify-between m-2">
+              <div>
+                <p className="text-xl text-dark-purple font-serif mb-4">
+                  Add Wiki
+                </p>
+              </div>
+              <div className="absolute left-[210px] mt-4 ">
+                <IconButton
+                  onClick={(e) => handleNewFolder(e, true)}
+                  color="primary"
+                  sx={{
+                    fontSize: "20px",
+                  }}
+                >
+                  <FaRegFile />
+                </IconButton>
+              </div>
+            </div>
+          )}
+        </div>
+
         <div className="flex ">
-          <IconButton
-            onClick={() => setExpand(!expand)}
-            sx={{
-              fontSize: "14px",
-              position: "relative",
-              bottom: "2px",
-            }}
-          >
-            {expand ? <IoIosArrowDown /> : <IoIosArrowForward />}
-          </IconButton>
+          {explorer?._id !== 1 && (
+            <IconButton
+              onClick={() => setExpand(!expand)}
+              sx={{
+                fontSize: "14px",
+                position: "relative",
+                bottom: "2px",
+              }}
+            >
+              {expand ? <IoIosArrowDown /> : <IoIosArrowForward />}
+            </IconButton>
+          )}
           <span
-            className={`flex ${editing ? "editing" : ""} background:
-            ${explorer?.id === selectedData?.id} ? "lightblue" : "white",
-      `}
-            onDoubleClick={handleDoubleClick}
+            className={`flex`}
             onClick={() => handlefileclick(explorer, explorer?.name)}
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
           >
-            {editing ? (
-              <input
-                type="text"
-                value={newName}
-                onChange={handleNameChange}
-                onBlur={handleBlur}
-                autoFocus
-              />
-            ) : (
-              <>
-                📄 {explorer.name}
-                {hover && (
-                  <div className="ml-5">
+            <>
+              {explorer?._id !== 1 && "📄"} {explorer.name}
+              {
+                <div className="ml-5">
+                  {explorer?.id !== 1 && (
                     <IconButton
                       onClick={(e) => handleNewFolder(e, true)}
                       color="primary"
@@ -166,11 +194,11 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
                     >
                       <FaRegFile />
                     </IconButton>
+                  )}
 
+                  {explorer?._id !== 1 && (
                     <IconButton
-                      onClick={(e) =>
-                        onDeleteFolder(e, explorer?.id, explorer?.parentID)
-                      }
+                      onClick={() => handleClickDeleteOpen(explorer?.id)}
                       color="error"
                       sx={{
                         fontSize: "15px",
@@ -180,9 +208,11 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
                     >
                       <MdDelete />
                     </IconButton>
+                  )}
+                  {explorer?._id !== 1 && (
                     <IconButton
                       onClick={(e) =>
-                        onRenameFolder(e, explorer?.id, "NewName")
+                        handleClickRenameOpen(e, explorer?.id, explorer?.name)
                       }
                       color="info"
                       sx={{
@@ -193,17 +223,92 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
                     >
                       <MdEdit />
                     </IconButton>
-                  </div>
-                )}
-              </>
-            )}
+                  )}
+                </div>
+              }
+            </>
           </span>
+          <Dialog
+            open={deleteopen}
+            onClose={handleDeleteClose}
+            PaperProps={{
+              component: "form",
+              onSubmit: (event) => {
+                event.preventDefault();
+                const formData = new FormData(event.currentTarget);
+                const formJson = Object.fromEntries(formData.entries());
+                const email = formJson.email;
+                console.log(email);
+                handleRenameClose();
+              },
+            }}
+          >
+            <DialogTitle>Delete File </DialogTitle>
+            <DialogContent>Are you sure want to delete the file?</DialogContent>
+            <DialogActions>
+              <Button
+                onClick={handleDeleteClose}
+                color="error"
+                variant="contained"
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                type="submit"
+                onClick={() => onDeleteFolder(deleteID, newName)}
+              >
+                Yes
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <Dialog
+            open={renameopen}
+            onClose={handleRenameClose}
+            PaperProps={{
+              component: "form",
+              onSubmit: (event) => {
+                event.preventDefault();
+                const formData = new FormData(event.currentTarget);
+                const formJson = Object.fromEntries(formData.entries());
+                const email = formJson.email;
+                console.log(email);
+                handleRenameClose();
+              },
+            }}
+          >
+            <DialogTitle>Rename File Name</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                required
+                margin="dense"
+                id="name"
+                name="name"
+                value={newName}
+                label="Name"
+                type="text"
+                variant="standard"
+                onChange={handleNameChange}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleRenameClose}>Cancel</Button>
+              <Button
+                type="submit"
+                onClick={() => onRenameFolder(renameId, newName)}
+              >
+                Subscribe
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
 
         <div style={{ display: expand ? "block" : "none", paddingLeft: 25 }}>
           {showInput.visible && (
             <div className="inputContainer">
-              <span>{showInput.isFolder ? "📄" : "📁"}</span>
+              <span>{showInput.isFolder && "📄"}</span>
               <input
                 type="text"
                 className="inputContainer__input"

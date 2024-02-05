@@ -14,9 +14,9 @@ const TemplatesScreen = () => {
     console.log(newData);
     navigate("/editor");
   };
-  
+
   return (
-    <div className="overflow-scroll h-full">
+    <div className="overflow-scroll h-screen">
       <div className="flex flex-wrap h-full">
         {templates?.length
           ? templates.map((item, index) => (
