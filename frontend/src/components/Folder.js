@@ -139,7 +139,7 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
     return (
       <div>
         <div>
-          {explorer?._id === 1 && (
+          {explorer?.id === 1 && (
             <div className="flex justify-between m-2">
               <div>
                 <p className="text-xl text-dark-purple font-serif mb-4">
@@ -162,7 +162,7 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
         </div>
 
         <div className="flex ">
-          {explorer?._id !== 1 && (
+          {explorer?.id !== 1 && (
             <IconButton
               onClick={() => setExpand(!expand)}
               sx={{
@@ -179,7 +179,7 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
             onClick={() => handlefileclick(explorer, explorer?.name)}
           >
             <>
-              {explorer?._id !== 1 && "📄"} {explorer.name}
+              {explorer?.id !== 1 && "📄"} {explorer.name}
               {
                 <div className="ml-5">
                   {explorer?.id !== 1 && (
@@ -196,7 +196,7 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
                     </IconButton>
                   )}
 
-                  {explorer?._id !== 1 && (
+                  {explorer?.id !== 1 && (
                     <IconButton
                       onClick={() => handleClickDeleteOpen(explorer?.id)}
                       color="error"
@@ -209,7 +209,7 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
                       <MdDelete />
                     </IconButton>
                   )}
-                  {explorer?._id !== 1 && (
+                  {explorer?.id !== 1 && (
                     <IconButton
                       onClick={(e) =>
                         handleClickRenameOpen(e, explorer?.id, explorer?.name)

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const DataSchema = new mongoose.Schema({
+const folderSchema = new mongoose.Schema({
   editorData: {
     type: Array,
   },
@@ -21,4 +21,4 @@ const DataSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Data", DataSchema);
+module.exports = mongoose.model("Folder", folderSchema);

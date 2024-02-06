@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useBlockNote, BlockNoteView } from "@blocknote/react";
 import "@blocknote/react/style.css";
-import { useData } from "../context/DataContext";
 import Folder from "../components/Folder";
 import aroopaImg from "../assets/images/aroopa.jpeg";
 import controlImg from "../assets/images/control.png";
@@ -10,7 +9,6 @@ import useTraverseTree from "../hooks/use-traverse-tree";
 import { useNavigate } from "react-router-dom";
 import { useFolderData } from "../context/FolderDataContext";
 
-const now = new Date().getTime();
 
 const Editor = () => {
   const navigate = useNavigate();
@@ -18,7 +16,7 @@ const Editor = () => {
   const { setSharedData, folderData } = useFolderData();
   const [explorerData, setExplorerData] = useState(folderData);
 
-  const [editorData, setEditorData] = useState();
+  const [editorData, setEditorData] = useState(folderData);
 
   React.useEffect(() => {
     setExplorerData(folderData);
