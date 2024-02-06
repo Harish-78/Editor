@@ -6,12 +6,7 @@ const useTraverseTree = () => {
         name: item,
         isFolder: isFolder,
         items: [],
-        data: [
-          {
-            time: new Date().getTime(),
-            blocks: [],
-          },
-        ],
+        editorData: {},
         parentID: folderId,
       });
 

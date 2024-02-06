@@ -3,12 +3,7 @@ export const explorer = {
   name: "",
   isFolder: true,
   items: [],
-  data: [
-    {
-      time: new Date().getTime(),
-      blocks: [],
-    },
-  ],
+  editorData: {},
   expand: true,
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { templates } from "../assets/data/templates";
-import { useData } from "../context/DataContext";
+import { useData } from "../context/FileDataContext";
 import { useNavigate } from "react-router-dom";
 const TemplatesScreen = () => {
   const { setSharedData } = useData();

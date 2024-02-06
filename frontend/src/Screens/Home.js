@@ -3,8 +3,12 @@ import React from "react";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import SearchImg from "../assets/images/Search.png";
 import instance from "../axios/axios";
+import { useNavigate } from "react-router-dom";
+import { useData } from "../context/FileDataContext";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const { setfileUpdateData } = useData();
   const [recentfiles, setRecentFiles] = React.useState([]);
   const getRecentFiles = async () => {
     try {
@@ -15,6 +19,16 @@ const Home = () => {
       console.log(err.message);
     }
   };
+
+  const handleRecentFilesOnclick = (id) => {
+    try {
+      navigate(`/editor/${id}`);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  
   React.useEffect(() => {
     getRecentFiles();
   }, []);
@@ -39,6 +53,14 @@ const Home = () => {
               }}
             />
           </div>
+          <div className="m-5 w-40 flex justify-center items-center flex-col  rounded-md shadow-md">
+            <img
+              src="https://img.freepik.com/premium-vector/plus-flat-blue-simple-icon-with-long-shadowxa_159242-10005.jpg?w=740"
+              className="w-[150px] h-[150px]"
+              alt="templates"
+            />
+            <h6>Blank Page</h6>
+          </div>
           <div className="flex">
             <div className="my-6 mx-4">
               <FaClockRotateLeft />
@@ -48,23 +70,22 @@ const Home = () => {
             </p>
           </div>
           <div className="flex flex-wrap h-full">
-          {!recentfiles.some(item => item.id === 1) ? (
-  recentfiles.map((item, index) => (
-    <div
-      key={index}
-      className="m-5 w-40 flex justify-center items-center flex-col  rounded-md shadow-md"
-      // onClick={() => handleTemplatesOnclick(item?.data, item?.name)}
-    >
-      <img
-        src={item?.imageUrl}
-        className="w-[150px] h-[150px]"
-        alt="templates"
-      />
-      <h6>{item?.name}</h6>
-    </div>
-  ))
-) : null}
-
+            {recentfiles?.length
+              ? recentfiles.map((item, index) => (
+                  <div
+                    key={index}
+                    className="m-5 w-40 flex justify-center items-center flex-col  rounded-md shadow-md"
+                    onClick={() => handleRecentFilesOnclick(item?.id)}
+                  >
+                    <img
+                      src={item?.imageUrl}
+                      className="w-[150px] h-[150px]"
+                      alt="templates"
+                    />
+                    <h6>{item?.name}</h6>
+                  </div>
+                ))
+              : null}
           </div>
         </div>
       }
