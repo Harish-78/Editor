@@ -113,7 +113,7 @@ const HomeScreen = () => {
             : null}
         </ul>
       </div>
-      <div className="h-screen  overflow-hidden w-full">
+      <div className="h-screen  overflow-scroll w-full">
         <div className="w-full   shadow-md ">
           <p
             className={` text-dark-purple ${

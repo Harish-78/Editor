@@ -4,7 +4,10 @@ export const explorer = {
   isFolder: true,
   items: [],
   data: [
-    
+    {
+      time: new Date().getTime(),
+      blocks: [],
+    },
   ],
   expand: true,
 };

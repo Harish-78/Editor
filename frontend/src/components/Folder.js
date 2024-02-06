@@ -52,7 +52,6 @@ function Folder({ handleInsertNode = () => {}, explorer }) {
 
   const { folderData, setSharedData } = useFolderData();
   React.useEffect(() => {
-    console.log(deletedData);
     setSharedData(deletedData ? deletedData : folderData);
   }, [deletedData, folderData, setSharedData]);
 

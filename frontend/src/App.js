@@ -16,7 +16,7 @@ const App = () => {
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/trash" element={<TrashScreen />} />
           <Route path="/templates" element={<TemplatesScreen />} />
-          <Route path="/editor" element={<Editor />} />
+          <Route path="/editor/:id" element={<Editor />} />
           <Route path="/home" element={<HomeScreen />} />
           <Route path="/searchDialog" element={<SimpleDialogDemo />} />
         </Routes>
