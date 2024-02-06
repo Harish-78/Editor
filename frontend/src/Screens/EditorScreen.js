@@ -21,14 +21,33 @@ const Editor = () => {
   React.useEffect(() => {
     setExplorerData(folderData);
     console.log(folderData);
+    console.log(editorData);
   }, [folderData, editorData]);
+  const [sampleData,setSampleData] = useState({
+    "id": 1,
+    "name": "",
+    "isFolder": true,
+    "items": [],   
+    "data": [],
+    "expand": true
+})
+React.useEffect(() => {
+  const updatedSampleData = {
+    ...sampleData,
+    data: editorData || [],
+  };
+  setSampleData(updatedSampleData);
+}, [editorData]);
+console.log(sampleData);
+console.log(editorData);
+
 
   const editor = useBlockNote({
-    initialContent: editorData?.blocks ?? [],
+    initialContent:( sampleData.data?.blocks || editorData?.blocks) ?? [],
     onEditorContentChange: (editor) => {
       
       setEditorData({
-        time: Date.now(),
+        time: Date.now(), 
         blocks: editor.topLevelBlocks,
       });
     },
