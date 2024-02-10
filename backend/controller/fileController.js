@@ -25,14 +25,14 @@ const getAllFile = async (req, res) => {
 const submitFile = async (req, res) => {
   try {
     const { name, isFolder, id, expand, editorData } = req.body;
-    const userForm = new fileData({
+    const file = new fileData({
       name,
       isFolder,
       id,
       expand,
       editorData,
     });
-    await userForm.save();
+    await file.save();
     res.status(200).send({ message: "Data submitted successfully" });
   } catch (error) {
     console.error(error);
@@ -40,16 +40,33 @@ const submitFile = async (req, res) => {
   }
 };
 
-const editFile = () => {};
+const updateFile = async (req, res) => {
+  try {
+    const { _id, ...updateData } = req.body;
+    console.log("Data :", updateData);
+    console.log("Id :", _id);
+    const updatedFile = await fileData.findByIdAndUpdate(_id, updateData, {
+      new: true,
+    });
+    if (!updatedFile) {
+      return res.status(404).json({ message: "File not found" });
+    }
+    res
+      .status(200)
+      .json({ message: "Updated successfully", user: updatedFile });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 const deleteFile = () => {};
-
-
 
 module.exports = {
   getFile,
   submitFile,
-  editFile,
+  updateFile,
   deleteFile,
- 
+
   getAllFile,
 };

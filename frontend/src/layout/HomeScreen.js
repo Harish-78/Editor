@@ -9,9 +9,11 @@ import TrashScreen from "../Screens/TrashScreen";
 import { useNavigate } from "react-router-dom";
 import SimpleDialogDemo from "../components/SearchDialog";
 import Home from "../Screens/Home";
+import TrailEditor from "../samples/Editor";
+import { IconButton } from "@mui/material";
 
 const HomeScreen = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [renderComponent, setRenderComponent] = useState(<Home />);
   const [title, setTitle] = useState("");
@@ -123,7 +125,9 @@ const HomeScreen = () => {
             {title}
           </p>
         </div>
-        {renderComponent}
+      
+
+       
       </div>
     </div>
   );

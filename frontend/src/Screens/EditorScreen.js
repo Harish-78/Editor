@@ -15,124 +15,39 @@ const Editor = () => {
   const [open, setOpen] = useState(true);
   const { setSharedData, folderData } = useFolderData();
   const [explorerData, setExplorerData] = useState(folderData);
+  const [fileData, setFileData] = useState({});
 
-  const [editorData, setEditorData] = useState(folderData);
+  const [editorData, setEditorData] = useState();
 
-const d =[
-  {
-    id: "newsBlock1",
-    type: "heading",
-    props: {
-      textColor: "default",
-      backgroundColor: "default",
-      textAlignment: "center",
-      level: 1,
-    },
-    content: [
-      {
-        type: "text",
-        text: "Breaking News",
-        styles: {},
-      },
-    ],
-    children: [],
-  },
-  {
-    id: "newsBlock2",
-    type: "image",
-    props: {
-      imageUrl: "https://placeholder.com/800x400",
-      altText: "News Image",
-    },
-    content: [],
-    children: [],
-  },
-  {
-    id: "newsBlock3",
-    type: "paragraph",
-    props: {
-      textColor: "default",
-      backgroundColor: "default",
-      textAlignment: "left",
-    },
-    content: [
-      {
-        type: "text",
-        text: "In a surprising turn of events, ",
-        styles: {},
-      },
-      {
-        type: "text",
-        text: "this news article",
-        styles: {},
-      },
-      {
-        type: "text",
-        text: " unveils groundbreaking information.",
-        styles: {},
-      },
-    ],
-    children: [],
-  },
-  {
-    id: "newsBlock4",
-    type: "paragraph",
-    props: {
-      textColor: "default",
-      backgroundColor: "default",
-      textAlignment: "left",
-    },
-    content: [
-      {
-        type: "text",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        styles: {},
-      },
-    ],
-    children: [],
-  },
-  {
-    id: "newsBlock5",
-    type: "image",
-    props: {
-      imageUrl: "https://placeholder.com/800x600",
-      altText: "News Image 2",
-    },
-    content: [],
-    children: [],
-  },
-  {
-    id: "newsBlock6",
-    type: "paragraph",
-    props: {
-      textColor: "default",
-      backgroundColor: "default",
-      textAlignment: "left",
-    },
-    content: [
-      {
-        type: "text",
-        text: "Stay tuned for more updates on this developing story.",
-        styles: {},
-      },
-    ],
-    children: [],
-  },
-]
+  const { id } = useParams();
+  const getFileData = async (id) => {
+    try {
+      const response = await instance.get(`/getfile/${id}`);
+      const { data } = response.data || {};
+      setFileData(data);
+      setEditorData(data?.data); 
+    } catch (err) {
+      console.error(err);
+    }
+    console.log(fileData);
+  };
 
+  useEffect(() => {
+    getFileData(id);
+  }, [id]);
+  // const d = editorData[0].blocks;
 
-  
   React.useEffect(() => {
     setExplorerData(folderData);
     console.log(folderData);
+    console.log(editorData);
   }, [folderData, editorData]);
-console.log(editorData);
+
   const editor = useBlockNote({
-    initialContent: d ,
+    // initialContent: editorData.blocks,
     onEditorContentChange: (editor) => {
-      
       setEditorData({
-        time: Date.now(), 
+        time: Date.now(),
         blocks: editor.topLevelBlocks,
       });
     },

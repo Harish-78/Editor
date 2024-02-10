@@ -4,15 +4,18 @@ import HomeScreen from "./layout/HomeScreen";
 import SettingsScreen from "./Screens/SettingsScreen";
 import TrashScreen from "./Screens/TrashScreen";
 import TemplatesScreen from "./Screens/TemplatesScreen";
-import Editor from "./Screens/EditorScreen";
 import SimpleDialogDemo from "./components/SearchDialog";
+import Editor from "./samples/Editor";
+import Parent from "./samples/Parent";
+// import Parent from "./samples/Parent";
 
 const App = () => {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomeScreen />} />
+          {/* <Route path="/" element={<Editor />} /> */}
+          <Route path="/" element={<Parent />} />
           <Route path="/settings" element={<SettingsScreen />} />
           <Route path="/trash" element={<TrashScreen />} />
           <Route path="/templates" element={<TemplatesScreen />} />
