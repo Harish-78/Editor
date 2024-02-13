@@ -34,7 +34,7 @@ function Editor() {
 
   return (
     <div
-      className={`overflow-hidden  p-5`}
+      className={`overflow-hidden`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

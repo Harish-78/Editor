@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import Editor from "./Editor";
-import { gridTemplates } from "./grids/gridTemplates";
+import { gridTemplates } from "./Data/gridTemplates";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import { Button, IconButton } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
-import { CustomLayout, Layout2, Layout3 } from "./Layout";
 
+import { useNavigate } from "react-router-dom";
 const Parent = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [layouts, setLayouts] = useState([]);
-  const open = Boolean(anchorEl);
+  const [layoutCounts, setLayoutCounts] = useState({});
 
+  const open = Boolean(anchorEl);
+  const navigate = useNavigate();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -21,55 +22,49 @@ const Parent = () => {
     setAnchorEl(null);
   };
 
-  const handleLayoutSelect = (layout) => {
+  const handleLayoutSelect = (item) => {
     setAnchorEl(null);
+    navigate(`${item.path}`);
 
-    if (layout === "Two-sided") {
-      const newLayout = <Layout2 />;
-      const newLayouts = [...layouts];
-      newLayouts.push(newLayout);
-      setLayouts(newLayouts);
-    }
+    // const newLayouts = [...layouts];
+    // const newLayoutCounts = { ...layoutCounts };
 
-    if (layout === "Three sided") {
-      const newLayout = <Layout3 />;
-      const newLayouts = [...layouts];
-      newLayouts.push(newLayout);
-      setLayouts(newLayouts);
-    }
+    // if (!newLayoutCounts[layout]) {
+    //   newLayoutCounts[layout] = 1;
+    // } else {
+    //   newLayoutCounts[layout]++;
+    // }
 
-    if (layout === "Custom") {
-      const newLayout = <CustomLayout />;
-      const newLayouts = [...layouts];
-      newLayouts.push(newLayout);
-      setLayouts(newLayouts);
-    }
+    // setLayoutCounts(newLayoutCounts);
+
+    // let newLayout;
+    // if (layout === "Two-sided") {
+    //   newLayout = <Layout2 count={newLayoutCounts[layout]} />;
+    // } else if (layout === "Three sided") {
+    //   newLayout = <Layout3 count={newLayoutCounts[layout]} />;
+    // } else if (layout === "Custom") {
+    //   newLayout = <CustomLayout count={newLayoutCounts[layout]} />;
+    // }
+
+    // newLayouts.push(newLayout);
+    // setLayouts(newLayouts);
   };
 
   return (
     <div className="w-full ">
-      <div className="flex justify-end w-full mr-2 sticky top-0 shadow-md z-10 bg-black p-5 ">
+      <div className="flex justify-end w-full mr-2 sticky top-0 shadow-md z-10 p-5 ">
         <Tooltip title="Layouts">
           <IconButton
             onClick={handleClick}
             size="small"
             sx={{
-              color: "white",
+              color: "black",
             }}
             aria-controls={anchorEl ? "account-menu" : undefined}
             aria-haspopup="true"
           >
             <SpaceDashboardIcon />
           </IconButton>
-          <Button
-            variant="contained"
-            color="inherit"
-            sx={{
-              ml: "15px",
-            }}
-          >
-            Preview
-          </Button>
         </Tooltip>
         <Menu
           anchorEl={anchorEl}
@@ -107,11 +102,8 @@ const Parent = () => {
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
           {gridTemplates.map((item, index) => (
-            <Tooltip title={item?.name}>
-              <MenuItem
-                key={index}
-                onClick={() => handleLayoutSelect(item.name)}
-              >
+            <Tooltip title={item?.name} key={index}>
+              <MenuItem onClick={() => handleLayoutSelect(item)}>
                 <img
                   src={item.image}
                   alt=""
@@ -125,11 +117,8 @@ const Parent = () => {
         </Menu>
       </div>
       <div className="w-[100%] z-0 flex flex-col justify-between">
-        <Editor />
         {layouts.map((layout, index) => (
-          <div key={index}>
-            {layout} <Editor />
-          </div>
+          <div key={index}>{layout}</div>
         ))}
       </div>
     </div>

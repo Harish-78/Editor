@@ -13,6 +13,7 @@ export const gridTemplates = [
         { x: 1, y: 1 },
       ],
     },
+    path: "/twoColumn",
   },
 
   {
@@ -20,11 +21,13 @@ export const gridTemplates = [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8E6FJCYyfb6ADOwMsfv_cqkgV_KJfl5JxXc13yiHYLXXt0U5K10tlXGjVabT2r5_FVKU&usqp=CAU",
     name: "Three sided",
     rotate: true,
+    path: "/threeColumn",
   },
 
   {
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi0sJknFXvdzHb9pW1X-WcineGiNXA6V9D9AcTiYjkyHsEiAD3F6dlgteP8Wc_aQsqe8c&usqp=CAU",
     name: "Custom",
+    path: "/custom",
   },
 ];

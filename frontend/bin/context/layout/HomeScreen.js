@@ -3,12 +3,12 @@ import controlImg from "../assets/images/control.png";
 import SettingImg from "../assets/images/Setting.png";
 import SearchImg from "../assets/images/Search.png";
 import aroopaImg from "../assets/images/aroopa.jpeg";
-import SettingsScreen from "../Screens/SettingsScreen";
-import TemplatesScreen from "../Screens/TemplatesScreen";
-import TrashScreen from "../Screens/TrashScreen";
+import SettingsScreen from "../../../src/Screens/SettingsScreen";
+import TemplatesScreen from "../../../src/Screens/TemplatesScreen";
+import TrashScreen from "../../../src/Screens/TrashScreen";
 import { useNavigate } from "react-router-dom";
 import SimpleDialogDemo from "../components/SearchDialog";
-import Home from "../Screens/Home";
+import Home from "../../../src/Screens/Home";
 import TrailEditor from "../samples/Editor";
 import { IconButton } from "@mui/material";
 

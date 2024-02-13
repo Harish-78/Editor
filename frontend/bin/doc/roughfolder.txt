@@ -204,3 +204,131 @@ export default Folder;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// <>
+      {/* <div
+        style={{
+          width: "220px",
+          borderRadius: "5px",
+          padding: "15px 12px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+          boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            gap: "5px",
+            alignItems: "center",
+          }}
+        >
+          <CgFileDocument color="#90e0ef" size={20} />
+          <span style={{ fontSize: "13px", fontWeight: 600 }}>Title</span>
+        </div>
+        <div style={{ fontSize: "11px", color: "#6f6f6f", fontWeight: 500 }}>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
+          eligendi reiciendis fuga doloremque
+        </div>
+        <div
+          style={{
+            justifyContent: "space-between",
+            display: "flex",
+            gap: "5px",
+            alignItems: "center",
+          }}
+        >
+          <PDFDownloadLink document={<Layout2 />} fileName="invoice.pdf">
+            <div
+              style={{
+                borderRadius: "3px",
+                border: "1px solid gray",
+                display: "flex",
+                alignItems: "center",
+                gap: "2px",
+                padding: "3px",
+                fontSize: "11px",
+                color: "#4f4f4f",
+                fontWeight: 600,
+                cursor: "pointer",
+                userSelect: "none",
+              }}
+            >
+              <HiOutlineDownload size={14} />
+              <span>Download</span>
+            </div>
+          </PDFDownloadLink>
+          <BlobProvider document={<Layout2 />}>
+            {({ url, blob }) => (
+              <a
+                href={url}
+                target="_blank"
+                style={{
+                  borderRadius: "3px",
+                  border: "1px solid gray",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "2px",
+                  padding: "3px",
+                  fontSize: "11px",
+                  color: "#4f4f4f",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  userSelect: "none",
+                }}
+              >
+                <HiOutlinePrinter size={14} />
+                <span>Print</span>
+              </a>
+            )}
+          </BlobProvider>
+          <div
+            style={{
+              borderRadius: "3px",
+              border: "1px solid gray",
+              display: "flex",
+              alignItems: "center",
+              gap: "2px",
+              padding: "3px",
+              fontSize: "11px",
+              color: "#4f4f4f",
+              fontWeight: 600,
+              cursor: "pointer",
+              userSelect: "none",
+            }}
+            onClick={downloadPDF}
+          >
+            <FiShare2 size={14} />
+            <span>Share</span>
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-end">
+        <Button
+          variant="contained"
+          sx={{ margin: "20px" }}
+          onClick={downloadPDF}
+        >
+          Download PDF
+        </Button>
+      </div>
+      <div className="receipt-box"> */}
+      
+    //   {/* </div> */}
+    // {/* </> */}
