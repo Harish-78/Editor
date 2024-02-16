@@ -183,16 +183,28 @@
   transform: rotate(45deg);
 }
 
-.grid {
+.box {
   padding: 5px;
   overflow: hidden;
   border: 1px dashed black;
 }
 
-.grid:hover .react-resizable-handle {
-  display: block !important;
+.box:hover {
+  border: 2px solid rgba(111, 43, 201, 0.562);
+}
+.box:hover .react-resizable-handle {
+  display: block;
 }
 
 .react-resizable-handle {
   display: none;
+}
+
+.lock {
+  display: flex;
+  justify-content: end;
+}
+
+.lock:hover .react-resizable-handle {
+  display: none !important;
 }

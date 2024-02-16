@@ -57,7 +57,7 @@ const ResizableHandles = () => {
 export default ResizableHandles;
 
 if (process.env.STATIC_EXAMPLES === true) {
-  import("./components/hooks/test-hook").then((fn) => fn.default(ResizableHandles));
+  import("../src/hooks/test-hook").then((fn) => fn.default(ResizableHandles));
 }
 
 

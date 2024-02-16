@@ -1,37 +1,45 @@
 import React, { useState, useEffect } from "react";
-import RGL, { WidthProvider } from "react-grid-layout";
-import "./styles.css";
+import { WidthProvider, Responsive } from "react-grid-layout";
+import _ from "lodash";
 import { useBlockNote, BlockNoteView } from "@blocknote/react";
 import "@blocknote/react/style.css";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
+import Switch from "@mui/material/Switch";
+import CloseIcon from "@mui/icons-material/Close";
+import "./styles.css";
 
-const ReactGridLayout = WidthProvider(RGL);
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-function Editor({ layout, onContentChange }) {
+function Editor({ i, onContentChange }) {
   const [editorData, setEditorData] = useState({
     time: Date.now(),
     blocks: [],
   });
+  const alreadyStoredData = JSON.parse(
+    localStorage.getItem("CustomeditorData")
+  );
+  const contents =
+    alreadyStoredData?.length > 0
+      ? alreadyStoredData.map((x, i) => x?.content)
+      : [];
+
+  console.log(contents);
 
   useEffect(() => {
-    onContentChange(layout, editorData);
-  }, [editorData, layout]);
+    onContentChange(editorData);
+  }, [editorData]);
 
   const editor = useBlockNote({
     initialContent: [],
     onEditorContentChange: (editor) => {
       setEditorData({
+        i: i,
         time: Date.now(),
         blocks: editor.topLevelBlocks,
       });
     },
-    domAttributes: {
-      editor: {
-        class: "editor",
-        "data-test": "editor",
-      },
-    },
+
     onEditorReady: (editor) => {
       editor.domElement?.focus();
     },
@@ -39,104 +47,166 @@ function Editor({ layout, onContentChange }) {
 
   return (
     <div className={`overflow-hidden`}>
-      <BlockNoteView editor={editor} />
+      <span>
+        <BlockNoteView editor={editor} />
+      </span>
     </div>
   );
 }
 
-const CustomLayout = (props) => {
-  const [layout, setLayout] = useState([]);
+const CustomLayout = () => {
+  const localitemData = JSON.parse(localStorage.getItem("rgl-7"));
+
   const [editorDataArray, setEditorDataArray] = useState([]);
 
-  const defaultProps = {
-    isDraggable: true,
-    className: "layout",
-    items: 4,
-    rowHeight: 30,
-    resizeHandles: ["s", "n", "e", "w"],
-    cols: 4,
+  const itemData = (localitemData || []).map((i, key, list) => ({
+    i: i?.i || i.toString(),
+    x: i?.x !== null ? i?.x : i * 6 || i * 6,
+    y: i?.y || 0,
+    w: i?.w || 2,
+    h: i?.h || 2,
+    add: i === list.length - 1,
+  }));
+  const [items, setItems] = useState(itemData);
+
+  const [newCounter, setNewCounter] = useState(0);
+  const [layout, setLayout] = useState([]);
+  const [cols, setCols] = useState();
+  const [draggable, setDraggable] = useState(false);
+  const [resizeable, setResizable] = useState(false);
+  const [checked, setChecked] = React.useState(false);
+
+  const handleChange = (event) => {
+    setDraggable(event.target.checked);
+    setResizable(event.target.checked);
+    setChecked(event.target.checked);
   };
 
-  React.useEffect(() => {
-    console.log("Custom Layout  :", editorDataArray);
-  }, [editorDataArray]);
-
-  const insertLayout = () => {
-    const newLayout = [
-      ...layout,
-      {
-        x: 0,
-        y: 0,
-        w: 1,
-        h: 3,
-        i: `${layout.length + 1}`,
-      },
-    ];
-    setLayout(newLayout);
-    // Here you can also update editorData.blocks if needed
-  };
-
-  function onLayoutChange(newLayout) {
-    setLayout(newLayout);
-    if (props.onLayoutChange) {
-      props.onLayoutChange(newLayout);
-    }
-  }
-  function handleEditorContentChange(layout, content) {
+  function handleEditorContentChange(content) {
     setEditorDataArray((prevEditorDataArray) => {
       const newData = [...prevEditorDataArray];
-      const dataIndex = newData.findIndex((data) => data.layout === layout);
+      const dataIndex = newData.findIndex(
+        (data) => data.layout?.i == content?.i
+      );
+      const layoutIndex = Number(content?.i);
       if (dataIndex !== -1) {
-        newData[dataIndex] = { layout, content, ComponentName: "CustomLayout" };
+        newData[dataIndex] = { layout: layout[layoutIndex], content };
       } else {
-        newData.push({ layout, content, ComponentName: "CustomLayout" });
+        newData.push({ layout: layout[layoutIndex], content });
       }
-      localStorage.setItem("CustomeditorData", JSON.stringify(newData));
-
-      return newData;
+      const filteredData = newData.filter((data) => data.layout !== undefined);
+      localStorage.setItem("CustomeditorData", JSON.stringify(filteredData));
+      return filteredData;
     });
+
+    console.log("editorArray", editorDataArray);
   }
 
-  const handleOnClick = (e) => {
-    console.log(e);
-    e.stopPropagation();
+  const createElement = (el) => {
+    const i = el.add ? "+" : el.i;
+    return (
+      <div key={i} className="box" data-grid={el}>
+        <div className="m-2 flex justify-end">
+          <IconButton onClick={() => onRemoveItem(i)}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+        <span className="text">
+          <Editor i={i} onContentChange={handleEditorContentChange} />
+        </span>
+      </div>
+    );
+  };
+
+  const onLayoutChange = (layout) => {
+    if (layout.length > 0) {
+      localStorage.setItem("rgl-7", JSON.stringify(layout));
+      setLayout(layout);
+    } else {
+      localStorage.removeItem("rgl-7");
+      setLayout([]);
+    }
+  };
+
+  const onAddItem = () => {
+    setItems([
+      ...layout,
+      {
+        i: newCounter,
+        x: (items.length * 6) % (cols || 12),
+        y: Infinity,
+        w: 6,
+        h: 4,
+      },
+    ]);
+    setNewCounter(newCounter + 1);
+  };
+
+  const onBreakpointChange = (breakpoint, cols) => {
+    setCols(cols);
+  };
+
+  const onRemoveItem = (i) => {
+    console.log("removing", i);
+    setItems(_.reject(items, { i: i }));
+  };
+
+  const defaultProps = {
+    isDraggable: draggable ? true : false,
+    isResizeable: resizeable ? true : false,
+    className: "layout",
+    rowHeight: 100,
+    resizeHandles: resizeable ? ["s", "n", "e", "w"] : [],
   };
 
   return (
     <div className="relative">
-      <div className="flex justify-end w-full mr-2 sticky top-0  bg-white shadow-md z-10 opacity-100  p-5">
-        <Button LinkComponent={Link} variant="contained">
-          Preview
-        </Button>
-      </div>
-      <div className="m-5">
-        <Button
-          variant="contained"
-          sx={{
-            margin: "10px",
-          }}
-          onClick={insertLayout}
-        >
-          Insert Layout
-        </Button>
-      </div>
-      <ReactGridLayout
-        layout={layout}
-        onLayoutChange={onLayoutChange}
-        {...defaultProps}
+      <div
+        className="flex justify-between w-full mr-2 sticky top-0  bg-white shadow-md z-10 opacity-100  p-5"
+        id="nav"
       >
-        {layout.map((item) => (
-          <div
-            key={item.i}
-            className="grid"
-            onClick={(e) => {
-              handleOnClick(e);
+        <div>
+          <Button variant="contained" onClick={onAddItem}>
+            Insert Layout
+          </Button>
+        </div>
+
+        <div className="flex">
+          <Button
+            LinkComponent={Link}
+            sx={{
+              height: "50px",
             }}
+            variant="contained"
+            to="/customLayoutpdfviewer"
           >
-            <Editor onContentChange={handleEditorContentChange} />
+            Preview
+          </Button>
+          <div className="flex  flex-col justify-end ">
+            <Switch
+              checked={checked}
+              onChange={handleChange}
+              inputProps={{ "aria-label": "controlled" }}
+            />
           </div>
-        ))}
-      </ReactGridLayout>
+          <div>
+            <p className="text-[15px]">draggable : {checked ? `ON` : `OFF`}</p>
+            <p className="text-[15px]">Resizable : {checked ? `ON` : `OFF`}</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <ResponsiveReactGridLayout
+          onLayoutChange={onLayoutChange}
+          onBreakpointChange={onBreakpointChange}
+          breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+          useCSSTransforms={true}
+          allowOverlap={false}
+          {...defaultProps}
+        >
+          {_.map(items, (el) => createElement(el))}
+        </ResponsiveReactGridLayout>
+      </div>
     </div>
   );
 };

@@ -332,3 +332,14 @@ export default Folder;
       
     //   {/* </div> */}
     // {/* </> */}
+
+
+
+
+
+ onClick={() => {
+                document.getElementById("nav").style.display = "none"; // Hide the button
+                window.print(); // Trigger the print dialog
+
+                document.getElementById("nav").style.display = "block";
+              }}

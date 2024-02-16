@@ -1,19 +1,24 @@
 import React, { useState } from "react";
-import { gridTemplates } from "./Data/gridTemplates";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
-
+import { useBlockNote, BlockNoteView } from "@blocknote/react";
+import "@blocknote/react/style.css";
 import { useNavigate } from "react-router-dom";
+import { gridTemplates } from "./Data/gridTemplates";
+
 const Parent = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [layouts, setLayouts] = useState([]);
-  const [layoutCounts, setLayoutCounts] = useState({});
+  const [editorData, setEditorData] = useState({
+    time: Date.now(),
+    blocks: [],
+  });
+  const navigate = useNavigate();
 
   const open = Boolean(anchorEl);
-  const navigate = useNavigate();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -25,34 +30,27 @@ const Parent = () => {
   const handleLayoutSelect = (item) => {
     setAnchorEl(null);
     navigate(`${item.path}`);
-
-    // const newLayouts = [...layouts];
-    // const newLayoutCounts = { ...layoutCounts };
-
-    // if (!newLayoutCounts[layout]) {
-    //   newLayoutCounts[layout] = 1;
-    // } else {
-    //   newLayoutCounts[layout]++;
-    // }
-
-    // setLayoutCounts(newLayoutCounts);
-
-    // let newLayout;
-    // if (layout === "Two-sided") {
-    //   newLayout = <Layout2 count={newLayoutCounts[layout]} />;
-    // } else if (layout === "Three sided") {
-    //   newLayout = <Layout3 count={newLayoutCounts[layout]} />;
-    // } else if (layout === "Custom") {
-    //   newLayout = <CustomLayout count={newLayoutCounts[layout]} />;
-    // }
-
-    // newLayouts.push(newLayout);
-    // setLayouts(newLayouts);
   };
+  const initialContent = localStorage.getItem("editor");
+  const editor = useBlockNote({
+    initialContent: initialContent
+      ? JSON.parse(initialContent)?.blocks
+      : [],
+    onEditorContentChange: (editor) => {
+      setEditorData({ time: Date.now(), blocks: editor.topLevelBlocks });
+      localStorage.setItem(
+        "editor",
+        JSON.stringify({ time: Date.now(), blocks: editor.topLevelBlocks })
+      );
+    },
+    onEditorReady: (editor) => {
+      editor.domElement?.focus();
+    },
+  });
 
   return (
-    <div className="w-full ">
-      <div className="flex justify-end w-full mr-2 sticky top-0 shadow-md z-10 p-5 ">
+    <div className="w-full relative">
+      <div className="flex justify-end w-full mr-2 sticky top-0 shadow-md opacity-100 z-10 bg-white  p-5  ">
         <Tooltip title="Layouts">
           <IconButton
             onClick={handleClick}
@@ -60,8 +58,6 @@ const Parent = () => {
             sx={{
               color: "black",
             }}
-            aria-controls={anchorEl ? "account-menu" : undefined}
-            aria-haspopup="true"
           >
             <SpaceDashboardIcon />
           </IconButton>
@@ -71,7 +67,6 @@ const Parent = () => {
           id="account-menu"
           open={open}
           onClose={handleClose}
-          onClick={handleClose}
           PaperProps={{
             elevation: 0,
             sx: {
@@ -81,7 +76,6 @@ const Parent = () => {
               "& .MuiAvatar-root": {
                 width: 32,
                 height: 32,
-                // ml: -0.5,
                 mr: 1,
               },
               "&::before": {
@@ -116,10 +110,8 @@ const Parent = () => {
           ))}
         </Menu>
       </div>
-      <div className="w-[100%] z-0 flex flex-col justify-between">
-        {layouts.map((layout, index) => (
-          <div key={index}>{layout}</div>
-        ))}
+      <div className="p-5">
+        <BlockNoteView editor={editor} theme={"light"} />
       </div>
     </div>
   );

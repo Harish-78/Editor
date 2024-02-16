@@ -37,11 +37,7 @@ function Editor({ layout, onContentChange }) {
     },
   });
 
-  return (
-    <div className={`overflow-hidden`}>
-      <BlockNoteView editor={editor} />
-    </div>
-  );
+  return <BlockNoteView editor={editor} />;
 }
 
 const CreateLayout3 = (props) => {

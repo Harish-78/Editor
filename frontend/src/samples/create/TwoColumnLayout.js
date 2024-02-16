@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import {
+  BlockNoteEditor,
+  uploadToTmpFilesDotOrg_DEV_ONLY,
+} from "@blocknote/core";
 import { useBlockNote, BlockNoteView } from "@blocknote/react";
 import "@blocknote/react/style.css";
 import RGL, { WidthProvider } from "react-grid-layout";
@@ -20,18 +24,14 @@ function Editor({ layout, onContentChange }) {
 
   const editor = useBlockNote({
     initialContent: [],
+    uploadFile: uploadToTmpFilesDotOrg_DEV_ONLY,
     onEditorContentChange: (editor) => {
       setEditorData({
         time: Date.now(),
         blocks: editor.topLevelBlocks,
       });
     },
-    domAttributes: {
-      editor: {
-        class: "editor",
-        "data-test": "editor",
-      },
-    },
+
     onEditorReady: (editor) => {
       editor.domElement?.focus();
     },
